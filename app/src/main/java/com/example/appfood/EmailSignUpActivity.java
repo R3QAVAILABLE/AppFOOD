@@ -35,7 +35,7 @@ public class EmailSignUpActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
-
+        //okok
         emailEditText = findViewById(R.id.email_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
         signUpButton = findViewById(R.id.sign_up_button);
