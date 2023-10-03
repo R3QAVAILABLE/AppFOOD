@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
 public class EmailSignUpActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
@@ -102,6 +103,9 @@ public class EmailSignUpActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    public void previous (View view){
+        startActivity(new Intent(EmailSignUpActivity.this,MainActivity.class));
     }
 }
 
