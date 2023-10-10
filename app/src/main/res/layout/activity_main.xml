@@ -10,7 +10,7 @@
 
 
     <Button
-        android:id="@+id/sign_up_google_button"
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#80FFFFFF"
@@ -39,21 +39,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
 
     tools:layout_editor_absoluteY="366dp" />
-
-    <Button
-        android:id="@+id/sign_in_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#80FFFFFF"
-        android:text="Sign In"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.749" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
