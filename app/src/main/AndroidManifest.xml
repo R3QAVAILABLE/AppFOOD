@@ -32,17 +32,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-< HEAD
+
         <activity android:name=".HomeScreen" />
         <activity android:name=".EmailSignUpActivity" />
 
-        <activity
-            android:name=".HomeScreen"
-            />
-        <activity android:name=".EmailSignUpActivity"
-            />
+
         <activity android:name=".Profile" />
->
+
     </application>
 
 </manifest>
