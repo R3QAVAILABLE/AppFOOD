@@ -17,41 +17,47 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_edit_text" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.606" />
 
     <EditText
         android:id="@+id/email_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#80FFFFFF"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:hint="E-Mail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.479" />
+        app:layout_constraintVertical_bias="0.448" />
 
     <EditText
         android:id="@+id/password_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#80FFFFFF"
         android:ems="10"
         android:inputType="textPassword"
+        android:hint="Password"
+        app:layout_constraintHorizontal_bias="0.502"
+        tools:layout_editor_absoluteY="363dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        app:layout_constraintTop_toBottomOf="@+id/email_edit_text" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="64dp"
+        android:layout_height="51dp"
         android:background="#80FFFFFF"
-        android:onClick="previous"
-        android:text="BACK"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -60,6 +66,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.91" />
+        app:layout_constraintVertical_bias="0.907"
+        app:srcCompat="@android:drawable/ic_menu_revert"
+        android:onClick="previous"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
