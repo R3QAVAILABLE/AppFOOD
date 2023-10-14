@@ -74,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button signinbtn = findViewById(R.id.sign_in_btn);
+        signinbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signinWithEmail();
+            }
+        });
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -91,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
     private void signUpWithEmail() {
         // Przejdź do ekranu rejestracji przez email i hasło
         Intent intent = new Intent(MainActivity.this, EmailSignUpActivity.class);
+        startActivity(intent);
+    }
+    private void signinWithEmail() {
+        // Przejdź do ekranu logowania przez email i hasło
+        Intent intent = new Intent(MainActivity.this, LogIn.class);
         startActivity(intent);
     }
 
