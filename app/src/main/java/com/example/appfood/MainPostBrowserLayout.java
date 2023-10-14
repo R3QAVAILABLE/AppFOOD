@@ -90,7 +90,16 @@ public class MainPostBrowserLayout extends AppCompatActivity {
 
         postAdapter.refreshPosts(tempwiadomoscilist);
 
+        ImageView profile;
+        profile=findViewById(R.id.goto_profile);
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainPostBrowserLayout.this, Profile.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
