@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class MainPostBrowserLayout extends AppCompatActivity {
 
@@ -44,7 +46,16 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         postAdapter=new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-      //databaseReferencePosty= FirebaseDatabase.getInstance("https://projekt-chat-9295e-default-rtdb.europe-west1.firebasedatabase.app/").getReference("czaty").child(post);
+        /*
+        try {
+            databaseReferencePosty = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference("posty");
+            databaseReferencePosty.setValue("test");
+        }
+        catch (Exception e){
+            Log.d("xyz","bład");
+        }
+
+         */
      //   postAdapter.clearPost();
 
         List<Post> tempwiadomoscilist=new ArrayList<>();
@@ -101,5 +112,13 @@ public class MainPostBrowserLayout extends AppCompatActivity {
             }
         });
 
+    }
+    private void dodajPosta(String opis) {
+        String msgid= UUID.randomUUID().toString();
+        Post post=new Post(msgid,"user1","123",opis,"123");
+
+        postAdapter.addPost(post);
+
+        databaseReferencePosty.child(msgid).setValue(post);
     }
 }
