@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         String email = user.getEmail();
         String name = user.getDisplayName();
 
+
         Map<String, Object> userData = new HashMap<>();
         userData.put("userId", userId);
         userData.put("email", email);
