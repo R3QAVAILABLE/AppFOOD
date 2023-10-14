@@ -66,7 +66,7 @@ public class EmailSignUpActivity extends AppCompatActivity {
                                 String name = extractNameFromEmail(email);
                                 saveUserDataToFirestore(userId, email, name);
                             }
-                            Intent intent = new Intent(EmailSignUpActivity.this, HomeScreen.class);
+                            Intent intent = new Intent(EmailSignUpActivity.this, MainPostBrowserLayout.class);
                             startActivity(intent);
                             finish();
                         } else {
