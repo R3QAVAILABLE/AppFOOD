@@ -49,9 +49,19 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseFirestore mFirestore;
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent intent = new Intent(getApplicationContext(), MainPostBrowserLayout.class);
+            startActivity(intent);
+            finish();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -74,6 +84,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button signinbtn = findViewById(R.id.sign_in_btn);
+        signinbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signinWithEmail();
+            }
+        });
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -93,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, EmailSignUpActivity.class);
         startActivity(intent);
     }
+    private void signinWithEmail() {
+        // Przejdź do ekranu logowania przez email i hasło
+        Intent intent = new Intent(MainActivity.this, LogIn.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -110,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToHomeScreen() {
-        Intent intent = new Intent(MainActivity.this, HomeScreen.class);
+        Intent intent = new Intent(MainActivity.this, MainPostBrowserLayout.class);
         startActivity(intent);
         finish(); // Opcjonalnie, aby usunąć aktywność z historii po przejściu
     }
@@ -136,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         String userId = user.getUid();
         String email = user.getEmail();
         String name = user.getDisplayName();
+
 
         Map<String, Object> userData = new HashMap<>();
         userData.put("userId", userId);

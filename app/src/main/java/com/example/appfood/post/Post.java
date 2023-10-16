@@ -1,17 +1,24 @@
-package com.example.appfood;
+package com.example.appfood.post;
 
 public class Post {
     private String postId;
     private String author;
+    private String authorimageUrl;
     private String imageUrl;
     private String description;
 
-    public Post(String postId, String author, String imageUrl, String description) {
+
+
+    public Post(String postId, String author, String imageUrl, String description, String authorimageUrl) {
         this.postId = postId;
         this.author = author;
         this.imageUrl = imageUrl;
         this.description = description;
+        this.authorimageUrl = authorimageUrl;
     }
+    public String getAuthorimageUrl() { return authorimageUrl; }
+
+    public void setAuthorimageUrl(String authorimageUrl) { this.authorimageUrl = authorimageUrl; }
 
     public String getPostId() {
         return postId;
