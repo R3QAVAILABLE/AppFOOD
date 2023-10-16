@@ -40,17 +40,6 @@ public class EmailSignUpActivity extends AppCompatActivity {
     FirebaseFirestore mFirestore;
 
     @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
-            startActivity(intent);
-            finish();
-        }
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_sign_up);
@@ -147,10 +136,6 @@ public class EmailSignUpActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    public void previous (View view){
-        startActivity(new Intent(EmailSignUpActivity.this,MainActivity.class));
     }
 }
 

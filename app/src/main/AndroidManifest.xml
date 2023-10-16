@@ -37,7 +37,6 @@
                 android:value="" />
         </activity>
 
-        <activity android:name=".HomeScreen" />
         <activity android:name=".EmailSignUpActivity"
             android:theme="@style/Theme.Material3.Light.NoActionBar"
             />

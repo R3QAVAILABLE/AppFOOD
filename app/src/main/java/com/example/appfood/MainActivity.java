@@ -49,9 +49,19 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseFirestore mFirestore;
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent intent = new Intent(getApplicationContext(), MainPostBrowserLayout.class);
+            startActivity(intent);
+            finish();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -123,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToHomeScreen() {
-        Intent intent = new Intent(MainActivity.this, HomeScreen.class);
+        Intent intent = new Intent(MainActivity.this, MainPostBrowserLayout.class);
         startActivity(intent);
         finish(); // Opcjonalnie, aby usunąć aktywność z historii po przejściu
     }

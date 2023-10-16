@@ -30,17 +30,6 @@ public class LogIn extends AppCompatActivity {
 
     TextView textView;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
-            startActivity(intent);
-            finish();
-        }
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +75,7 @@ public class LogIn extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
                                     Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainPostBrowserLayout.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
