@@ -102,45 +102,18 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         newpost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dodajPosta("3. Spaghetti Aglio e Olio:\n" +
-                        "Składniki:\n" +
-                        "\n" +
-                        "200g spaghetti\n" +
-                        "4 ząbki czosnku\n" +
-                        "50ml oliwy z oliwek\n" +
-                        "Szczypta płatków chili, natka pietruszki\n" +
-                        "Przygotowanie:\n" +
-                        "\n" +
-                        "Ugotuj spaghetti wg wskazówek na opakowaniu.\n" +
-                        "Podsmaż czosnek w oliwie na złoty kolor, dodaj płatki chili.\n" +
-                        "Dodaj ugotowane spaghetti i wymieszaj.\n" +
-                        "Posyp posiekaną natką pietruszki.");
-                dodajPosta("2. Spaghetti Aglio e Olio:\n" +
-                        "Składniki:\n" +
-                        "\n" +
-                        "200g spaghetti\n" +
-                        "4 ząbki czosnku\n" +
-                        "50ml oliwy z oliwek\n" +
-                        "Szczypta płatków chili, natka pietruszki\n" +
-                        "Przygotowanie:\n" +
-                        "\n" +
-                        "Ugotuj spaghetti wg wskazówek na opakowaniu.\n" +
-                        "Podsmaż czosnek w oliwie na złoty kolor, dodaj płatki chili.\n" +
-                        "Dodaj ugotowane spaghetti i wymieszaj.\n" +
-                        "Posyp posiekaną natką pietruszki.");
+                Intent intent = new Intent(MainPostBrowserLayout.this, create_post.class);
+                startActivity(intent);
 
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(MainPostBrowserLayout.this, Profile.class);
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void fetchDataFromFirebase() {
