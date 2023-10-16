@@ -60,6 +60,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull PostAdapter.MyViewHolder holder, int position) {
         Post post=postlist.get(position);
         holder.description.setText(post.getDescription());
+        holder.username.setText(post.getAuthor());
 
     }
 
