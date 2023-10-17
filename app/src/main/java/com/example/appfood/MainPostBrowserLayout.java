@@ -92,8 +92,6 @@ public class MainPostBrowserLayout extends AppCompatActivity {
 
 
  */
-
-
         ImageView profile;
         ImageView newpost;
         profile = findViewById(R.id.goto_profile);
@@ -104,7 +102,6 @@ public class MainPostBrowserLayout extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainPostBrowserLayout.this, create_post.class);
                 startActivity(intent);
-
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
@@ -141,15 +138,12 @@ public class MainPostBrowserLayout extends AppCompatActivity {
                 postAdapter.refreshPosts(tempwiadomoscilist);
                 // Tutaj możesz zaktualizować interfejs użytkownika, jeśli potrzebne
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Obsłuż błąd, jeśli wystąpi
             }
         });
     }
-
-
     private void dodajPosta(String opis) {
         String msgid= UUID.randomUUID().toString();
         Post post=new Post(msgid,"user1","123",opis,"123");
