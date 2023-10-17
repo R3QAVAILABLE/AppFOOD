@@ -171,7 +171,7 @@ public class MainPostBrowserLayout extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Obsłuż błąd, jeśli wystąpi
+                // Obsłuż błąd, jeśli wystąpiiii
             }
         });
     }
