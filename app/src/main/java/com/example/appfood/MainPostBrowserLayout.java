@@ -63,35 +63,7 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         tempwiadomoscilist.add(post);
         postAdapter.refreshPosts(tempwiadomoscilist);
         fetchDataFromFirebase();
-/*
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                List<Post> tempwiadomoscilist=new ArrayList<>();
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    Post posty=dataSnapshot.getValue(Post.class);
-                    tempwiadomoscilist.add(posty);
-                    //msgAdapter.dodaj(wiadomosci);
-                }
-
-
-                postAdapter.refreshPosts(tempwiadomoscilist);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-            }
-        };
-
-
-        databaseReferencePosty.addValueEventListener(postListener);
-
-
- */
         ImageView profile;
         ImageView newpost;
         profile = findViewById(R.id.goto_profile);
@@ -144,12 +116,5 @@ public class MainPostBrowserLayout extends AppCompatActivity {
             }
         });
     }
-    private void dodajPosta(String opis) {
-        String msgid= UUID.randomUUID().toString();
-        Post post=new Post(msgid,"user1","123",opis,"123");
 
-        postAdapter.addPost(post);
-
-        databaseReferencePosty.child(msgid).setValue(post);
-    }
 }

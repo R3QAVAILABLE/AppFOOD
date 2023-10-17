@@ -23,13 +23,8 @@ import java.util.UUID;
 
 public class create_post extends AppCompatActivity {
 
-    String idUzytkownik;
     DatabaseReference databaseReferencePosty;
-    String post;
-    PostAdapter postAdapter;
-    String timeStamp;
-    RecyclerView recyclerView;
-    List<Post> tempwiadomoscilist = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +32,6 @@ public class create_post extends AppCompatActivity {
         setContentView(R.layout.activity_create_post);
         View cofanie = findViewById(R.id.button_cancel);
         View zapisanie = findViewById(R.id.button_zapisz);
-        postAdapter = new PostAdapter(this);
-        recyclerView.setAdapter(postAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Post post = new Post("123", "user1", "123", "dfgdfsg", "123");
-
-        postAdapter = new PostAdapter(this);
         try {
             databaseReferencePosty = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference("posty");
         } catch (Exception e) {
@@ -59,25 +48,14 @@ public class create_post extends AppCompatActivity {
                     String SkladnikiDania = skladniki.getText().toString();
                 EditText instrukcja = findViewById(R.id.instrukcja_dania);
                     String InstrukcjaDania = instrukcja.getText().toString();
+                    String tempOPIS;
+                    tempOPIS=NazwaDania+"\n\nSkładniki:\n\n"+ SkladnikiDania+"\n\nPrzygotowanie:\n\n"+InstrukcjaDania;
 
-
-                /*dodajPosta("3. Spaghetti Aglio e Olio:\n" +
-                        "Składniki:\n" +
-                        "\n" +
-                        "200g spaghetti\n" +
-                        "4 ząbki czosnku\n" +
-                        "50ml oliwy z oliwek\n" +
-                        "Szczypta płatków chili, natka pietruszki\n" +
-                        "Przygotowanie:\n" +
-                        "\n" +
-                        "Ugotuj spaghetti wg wskazówek na opakowaniu.\n" +
-                        "Podsmaż czosnek w oliwie na złoty kolor, dodaj płatki chili.\n" +
-                        "Dodaj ugotowane spaghetti i wymieszaj.\n" +
-                        "Posyp posiekaną natką pietruszki.");
-
-                 */
-
-                dodajPosta(NazwaDania);
+                    if(!NazwaDania.isEmpty()&&!SkladnikiDania.isEmpty()&&!InstrukcjaDania.isEmpty()) {
+                        dodajPosta(tempOPIS);
+                        Intent intent = new Intent(create_post.this, MainPostBrowserLayout.class);
+                        startActivity(intent);
+                    }
             }
         });
         cofanie.setOnClickListener(new View.OnClickListener() {
@@ -91,9 +69,6 @@ public class create_post extends AppCompatActivity {
     private void dodajPosta(String description) {
         String msgid= UUID.randomUUID().toString();
         Post post=new Post(msgid,"user1","123",description, "123");
-
-        postAdapter.addPost(post);
-
         databaseReferencePosty.child(msgid).setValue(post);
     }
 }
