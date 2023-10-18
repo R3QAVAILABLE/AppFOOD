@@ -54,11 +54,8 @@ public class create_post extends AppCompatActivity {
                     String SkladnikiDania = skladniki.getText().toString();
                 EditText instrukcja = findViewById(R.id.instrukcja_dania);
                     String InstrukcjaDania = instrukcja.getText().toString();
-                    String tempOPIS;
-                    tempOPIS=NazwaDania+"\n\nSkładniki:\n\n"+ SkladnikiDania+"\n\nPrzygotowanie:\n\n"+InstrukcjaDania;
-
                     if(!NazwaDania.isEmpty()&&!SkladnikiDania.isEmpty()&&!InstrukcjaDania.isEmpty()) {
-                        dodajPosta(tempOPIS);
+                        dodajPosta(NazwaDania, SkladnikiDania,InstrukcjaDania);
                         Intent intent = new Intent(create_post.this, MainPostBrowserLayout.class);
                         startActivity(intent);
                     }
@@ -72,9 +69,9 @@ public class create_post extends AppCompatActivity {
             }
         });
     }
-    private void dodajPosta(String description) {
+    private void dodajPosta(String name, String description, String ingredients) {
         String msgid= UUID.randomUUID().toString();
-        Post post=new Post(msgid,fbUser.getUid(),"123",description, "123");
+        Post post=new Post(msgid,fbUser.getUid(),"123",name,ingredients, description,"123",1,1);
         databaseReferencePosty.child(msgid).setValue(post);
     }
 }

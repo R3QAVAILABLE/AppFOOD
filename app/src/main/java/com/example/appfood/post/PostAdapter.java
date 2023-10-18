@@ -72,10 +72,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.gotoedit.setVisibility(View.GONE);
         holder.gotoedit.setEnabled(false);
         Post post=postlist.get(position);
-        holder.description.setText(post.getDescription());
+        holder.description.setText("Przygotowanie:\n\n"+post.getDescription());
+        holder.likes.setText(post.getLikes()+" likes");
+        holder.comments.setText(post.getComments()+" comments");
+        holder.ingredients.setText("Składniki:\n\n"+post.getIngredients());
+        holder.postname.setText(post.getName());
         firestore=FirebaseFirestore.getInstance();
-        DocumentReference docRef = firestore.collection("users").document(post.getAuthor());
-        if(post.getAuthor().equals(currentuserid)){
+        DocumentReference docRef = firestore.collection("users").document(post.getAuthorId());
+        if(post.getAuthorId().equals(currentuserid)){
             holder.gotoedit.setVisibility(View.VISIBLE);
             holder.gotoedit.setEnabled(true);
         }
@@ -113,6 +117,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         private ImageView userimage;
         private TextView username;
         private ImageView gotoedit;
+        private TextView likes;
+        private TextView comments;
+        private TextView postname;
+        private TextView ingredients;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,6 +130,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             layout=itemView.findViewById(R.id.mainpostlayout);
             userimage=itemView.findViewById(R.id.image_profile);
             username=itemView.findViewById(R.id.username);
+            likes=itemView.findViewById(R.id.likes);
+            comments=itemView.findViewById(R.id.comments);
+            postname=itemView.findViewById(R.id.name);
+            ingredients=itemView.findViewById(R.id.ingredients);
 
             gotoedit.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -60,7 +60,7 @@ public class MainPostBrowserLayout extends AppCompatActivity {
             Log.d("xyz", "bład");
         }
 
-        Post post = new Post("123", "user1", "123", "dfgdfsg", "123");
+        Post post = new Post("123", "user1", "123", "dfgdfsg", "123","123","123",1,1);
         tempwiadomoscilist.add(post);
         postAdapter.refreshPosts(tempwiadomoscilist);
         fetchDataFromFirebase();
@@ -99,14 +99,18 @@ public class MainPostBrowserLayout extends AppCompatActivity {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     // Pobierz dane z DataSnapshot
-                    String author = postSnapshot.child("author").getValue(String.class);
-                    String authorImageUrl = postSnapshot.child("authorImageUrl").getValue(String.class);
+                    String authorId = postSnapshot.child("authorId").getValue(String.class);
+                    int comments = postSnapshot.child("comments").getValue(int.class);
                     String description = postSnapshot.child("description").getValue(String.class);
                     String imageUrl = postSnapshot.child("imageUrl").getValue(String.class);
+                    String ingredients = postSnapshot.child("ingredients").getValue(String.class);
+                    int likes = postSnapshot.child("likes").getValue(int.class);
+                    String name = postSnapshot.child("name").getValue(String.class);
                     String postId = postSnapshot.child("postId").getValue(String.class);
+                    String tag = postSnapshot.child("tag").getValue(String.class);
 
                     // Utwórz obiekt Post
-                    Post post = new Post(postId,author, authorImageUrl, description, imageUrl);
+                    Post post = new Post( postId,  authorId,  imageUrl,  name,  ingredients,  description,  tag,  likes,  comments);
 
                     // Dodaj post do listy
                     tempwiadomoscilist.add(post);
