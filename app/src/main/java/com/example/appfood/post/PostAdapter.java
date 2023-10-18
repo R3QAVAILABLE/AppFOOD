@@ -1,6 +1,7 @@
 package com.example.appfood.post;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appfood.Edit_delete_post;
+import com.example.appfood.MainPostBrowserLayout;
 import com.example.appfood.R;
+import com.example.appfood.create_post;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -75,6 +79,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             holder.gotoedit.setVisibility(View.VISIBLE);
             holder.gotoedit.setEnabled(true);
         }
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -117,6 +122,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             layout=itemView.findViewById(R.id.mainpostlayout);
             userimage=itemView.findViewById(R.id.image_profile);
             username=itemView.findViewById(R.id.username);
+
+            gotoedit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(),Edit_delete_post.class);
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
     }
 

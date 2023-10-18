@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
@@ -66,8 +67,10 @@ public class MainPostBrowserLayout extends AppCompatActivity {
 
         ImageView profile;
         ImageView newpost;
+
         profile = findViewById(R.id.goto_profile);
         newpost = findViewById(R.id.goto_new_post);
+
 
         newpost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +86,7 @@ public class MainPostBrowserLayout extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     private void fetchDataFromFirebase() {
