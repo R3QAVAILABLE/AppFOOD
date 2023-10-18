@@ -53,16 +53,16 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        Post post = new Post("123", "user1", "123", "dfgdfsg", "123","123","123",1,1);
+        tempwiadomoscilist.add(post);
+        postAdapter.refreshPosts(tempwiadomoscilist);
         try {
             databaseReferencePosty = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference("posty");
         } catch (Exception e) {
             Log.d("xyz", "bład");
         }
 
-        Post post = new Post("123", "user1", "123", "dfgdfsg", "123","123","123",1,1);
-        tempwiadomoscilist.add(post);
-        postAdapter.refreshPosts(tempwiadomoscilist);
+
         fetchDataFromFirebase();
 
         ImageView profile;
@@ -96,6 +96,7 @@ public class MainPostBrowserLayout extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Wyczyść listę przed dodaniem nowych danych
                 tempwiadomoscilist.clear();
+
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     // Pobierz dane z DataSnapshot

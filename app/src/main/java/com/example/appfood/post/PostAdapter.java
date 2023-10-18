@@ -36,6 +36,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     FirebaseUser fbUser;
 
 
+
     public PostAdapter(Context mcontext) {
         this.mcontext = mcontext;
 
@@ -66,12 +67,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.MyViewHolder holder, int position) {
+
         fbAuth=FirebaseAuth.getInstance();
         fbUser=fbAuth.getCurrentUser();
         String currentuserid=fbUser.getUid();
         holder.gotoedit.setVisibility(View.GONE);
         holder.gotoedit.setEnabled(false);
         Post post=postlist.get(position);
+        holder.postid=post.getPostId();
         holder.description.setText("Przygotowanie:\n\n"+post.getDescription());
         holder.likes.setText(post.getLikes()+" likes");
         holder.comments.setText(post.getComments()+" comments");
@@ -121,6 +124,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         private TextView comments;
         private TextView postname;
         private TextView ingredients;
+        private String postid;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,6 +143,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(),Edit_delete_post.class);
+                    intent.putExtra("postid",postid);
+                    Log.d("fsdggsfgfds",postid);
                     v.getContext().startActivity(intent);
                 }
             });
