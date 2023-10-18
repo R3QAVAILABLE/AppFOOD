@@ -147,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             saveUserDataToFirestore(user);
-                            goToHomeScreen();
+                            Intent intent = new Intent(MainActivity.this, MainPostBrowserLayout.class);
+                            startActivity(intent);
                         } else {
                             // Obsługa błędu logowania
                         }

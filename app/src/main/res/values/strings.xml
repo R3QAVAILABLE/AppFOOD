@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AppFOOD</string>
     <string name="title_activity_log_in">LogIn</string>
+    <string name="web_client_id">556002285986-q6bthpphj90i45fc1gbjobb2m2fldh9s.apps.googleusercontent.com</string>
 </resources>
