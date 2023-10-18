@@ -63,36 +63,6 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         tempwiadomoscilist.add(post);
         postAdapter.refreshPosts(tempwiadomoscilist);
         fetchDataFromFirebase();
-/*
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                List<Post> tempwiadomoscilist=new ArrayList<>();
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    Post posty=dataSnapshot.getValue(Post.class);
-                    tempwiadomoscilist.add(posty);
-                    //msgAdapter.dodaj(wiadomosci);
-                }
-
-
-                postAdapter.refreshPosts(tempwiadomoscilist);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-            }
-        };
-
-
-        databaseReferencePosty.addValueEventListener(postListener);
-
-
- */
-
 
         ImageView profile;
         ImageView newpost;
@@ -102,45 +72,17 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         newpost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dodajPosta("3. Spaghetti Aglio e Olio:\n" +
-                        "Składniki:\n" +
-                        "\n" +
-                        "200g spaghetti\n" +
-                        "4 ząbki czosnku\n" +
-                        "50ml oliwy z oliwek\n" +
-                        "Szczypta płatków chili, natka pietruszki\n" +
-                        "Przygotowanie:\n" +
-                        "\n" +
-                        "Ugotuj spaghetti wg wskazówek na opakowaniu.\n" +
-                        "Podsmaż czosnek w oliwie na złoty kolor, dodaj płatki chili.\n" +
-                        "Dodaj ugotowane spaghetti i wymieszaj.\n" +
-                        "Posyp posiekaną natką pietruszki.");
-                dodajPosta("2. Spaghetti Aglio e Olio:\n" +
-                        "Składniki:\n" +
-                        "\n" +
-                        "200g spaghetti\n" +
-                        "4 ząbki czosnku\n" +
-                        "50ml oliwy z oliwek\n" +
-                        "Szczypta płatków chili, natka pietruszki\n" +
-                        "Przygotowanie:\n" +
-                        "\n" +
-                        "Ugotuj spaghetti wg wskazówek na opakowaniu.\n" +
-                        "Podsmaż czosnek w oliwie na złoty kolor, dodaj płatki chili.\n" +
-                        "Dodaj ugotowane spaghetti i wymieszaj.\n" +
-                        "Posyp posiekaną natką pietruszki.");
-
+                Intent intent = new Intent(MainPostBrowserLayout.this, create_post.class);
+                startActivity(intent);
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(MainPostBrowserLayout.this, Profile.class);
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void fetchDataFromFirebase() {
@@ -168,21 +110,11 @@ public class MainPostBrowserLayout extends AppCompatActivity {
                 postAdapter.refreshPosts(tempwiadomoscilist);
                 // Tutaj możesz zaktualizować interfejs użytkownika, jeśli potrzebne
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Obsłuż błąd, jeśli wystąpi
+                // Obsłuż błąd, jeśli wystąpiiii
             }
         });
     }
 
-
-    private void dodajPosta(String opis) {
-        String msgid= UUID.randomUUID().toString();
-        Post post=new Post(msgid,"user1","123",opis,"123");
-
-        postAdapter.addPost(post);
-
-        databaseReferencePosty.child(msgid).setValue(post);
-    }
 }
