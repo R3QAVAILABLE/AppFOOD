@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,12 +26,16 @@ import java.util.UUID;
 public class create_post extends AppCompatActivity {
 
     DatabaseReference databaseReferencePosty;
+    FirebaseAuth fbAuth;
+    FirebaseUser fbUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+        fbAuth=FirebaseAuth.getInstance();
+        fbUser=fbAuth.getCurrentUser();
         View cofanie = findViewById(R.id.button_cancel);
         View zapisanie = findViewById(R.id.button_zapisz);
         try {
@@ -68,7 +74,7 @@ public class create_post extends AppCompatActivity {
     }
     private void dodajPosta(String description) {
         String msgid= UUID.randomUUID().toString();
-        Post post=new Post(msgid,"user1","123",description, "123");
+        Post post=new Post(msgid,fbUser.getUid(),"123",description, "123");
         databaseReferencePosty.child(msgid).setValue(post);
     }
 }
