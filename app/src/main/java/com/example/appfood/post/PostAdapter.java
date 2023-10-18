@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appfood.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,6 +28,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public Context mcontext;
     public List<Post> postlist;
     private FirebaseFirestore firestore;
+    FirebaseAuth fbAuth;
+    FirebaseUser fbUser;
 
 
     public PostAdapter(Context mcontext) {
@@ -59,10 +62,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.MyViewHolder holder, int position) {
+        fbAuth=FirebaseAuth.getInstance();
+        fbUser=fbAuth.getCurrentUser();
+        String currentuserid=fbUser.getUid();
+        holder.gotoedit.setVisibility(View.GONE);
+        holder.gotoedit.setEnabled(false);
         Post post=postlist.get(position);
         holder.description.setText(post.getDescription());
         firestore=FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("users").document(post.getAuthor());
+        if(post.getAuthor().equals(currentuserid)){
+            holder.gotoedit.setVisibility(View.VISIBLE);
+            holder.gotoedit.setEnabled(true);
+        }
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -95,9 +107,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         private RelativeLayout layout;
         private ImageView userimage;
         private TextView username;
+        private ImageView gotoedit;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            gotoedit=itemView.findViewById(R.id.goto_edit_post);
             postimage=itemView.findViewById(R.id.post_image);
             description=itemView.findViewById(R.id.description);
             layout=itemView.findViewById(R.id.mainpostlayout);
