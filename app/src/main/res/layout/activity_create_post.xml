@@ -42,7 +42,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_image"
+            android:src="@mipmap/ic_launcher"/>
         <EditText
             android:id="@+id/nazwa_dania"
             android:layout_width="match_parent"
@@ -88,6 +92,12 @@
             android:layout_height="match_parent"
             android:layout_weight="0"
             android:text="Zapisz" />
+        <Button
+            android:id="@+id/button_wybierz_zdjecie"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:text="Wybierz zdjęcie" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.appfood.Edit_delete_post;
 import com.example.appfood.MainPostBrowserLayout;
 import com.example.appfood.R;
@@ -24,6 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -34,7 +37,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     private FirebaseFirestore firestore;
     FirebaseAuth fbAuth;
     FirebaseUser fbUser;
-
+    StorageReference storageReference;
 
 
     public PostAdapter(Context mcontext) {
@@ -80,6 +83,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.comments.setText(post.getComments()+" comments");
         holder.ingredients.setText("Składniki:\n\n"+post.getIngredients());
         holder.postname.setText(post.getName());
+
         firestore=FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("users").document(post.getAuthorId());
         if(post.getAuthorId().equals(currentuserid)){
@@ -128,6 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
             gotoedit=itemView.findViewById(R.id.goto_edit_post);
             postimage=itemView.findViewById(R.id.post_image);
             description=itemView.findViewById(R.id.description);
@@ -138,6 +143,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             comments=itemView.findViewById(R.id.comments);
             postname=itemView.findViewById(R.id.name);
             ingredients=itemView.findViewById(R.id.ingredients);
+            storageReference= FirebaseStorage.getInstance("gs://appfood-87dbd.appspot.com").getReference();
 
             gotoedit.setOnClickListener(new View.OnClickListener() {
                 @Override

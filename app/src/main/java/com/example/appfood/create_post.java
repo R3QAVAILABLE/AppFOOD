@@ -1,10 +1,13 @@
 package com.example.appfood;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,10 +17,15 @@ import android.widget.TextView;
 
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +36,11 @@ public class create_post extends AppCompatActivity {
     DatabaseReference databaseReferencePosty;
     FirebaseAuth fbAuth;
     FirebaseUser fbUser;
-
-
+    ImageView image_post;
+    View zdjecie;
+    Uri imageUrl;
+    StorageReference storageReference;
+    String imagepath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +49,19 @@ public class create_post extends AppCompatActivity {
         fbUser=fbAuth.getCurrentUser();
         View cofanie = findViewById(R.id.button_cancel);
         View zapisanie = findViewById(R.id.button_zapisz);
+        zdjecie=findViewById(R.id.button_wybierz_zdjecie);
+        image_post=findViewById(R.id.post_image);
         try {
             databaseReferencePosty = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference("posty");
         } catch (Exception e) {
             Log.d("xyz", "bład");
         }
+        zdjecie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
 
         zapisanie.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +88,49 @@ public class create_post extends AppCompatActivity {
             }
         });
     }
+
+
+    private void uploadimage(){
+
+
+        String msgid= UUID.randomUUID().toString();
+        String filename=msgid+".jpg";
+        imagepath="images/"+filename;
+        storageReference= FirebaseStorage.getInstance().getReference("images/"+filename);
+
+        storageReference.putFile(imageUrl).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                image_post.setImageURI(imageUrl);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+    private void selectImage() {
+        Intent intent=new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100 && data != null && data.getData() != null){
+            imageUrl=data.getData();
+            image_post.setImageURI(imageUrl);
+        }
+    }
+
     private void dodajPosta(String name, String description, String ingredients) {
         String msgid= UUID.randomUUID().toString();
-        Post post=new Post(msgid,fbUser.getUid(),"123",name,ingredients, description,"123",1,1);
+        uploadimage();
+        Post post=new Post(msgid,fbUser.getUid(),imagepath,name,ingredients, description,"123",1,1);
         databaseReferencePosty.child(msgid).setValue(post);
     }
 }
