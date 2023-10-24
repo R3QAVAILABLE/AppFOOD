@@ -11,12 +11,16 @@ import android.widget.EditText;
 
 import com.example.appfood.post.Post;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,6 +78,25 @@ public class Edit_delete_post extends AppCompatActivity {
         usun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String imgurltodelete;
+                FirebaseStorage storage;
+                StorageReference storageRef;
+                storage = FirebaseStorage.getInstance();
+                storageRef = storage.getReferenceFromUrl("gs://appfood-87dbd.appspot.com").child(imageUrl);
+
+// Delete the file
+                storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // File deleted successfully
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Uh-oh, an error occurred!
+                    }
+                });
+
                 databaseReferencePosty.child(postid).removeValue();
                 Intent intent = new Intent(Edit_delete_post.this, MainPostBrowserLayout.class);
                 startActivity(intent);

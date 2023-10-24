@@ -50,9 +50,6 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_post_browser_layout);
         recyclerView = findViewById(R.id.recyclerview);
-        //idUzytkownik =getIntent().getStringExtra("id");
-        //post= idUzytkownik + FirebaseAuth.getInstance().getUid();
-
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -93,11 +90,10 @@ public class MainPostBrowserLayout extends AppCompatActivity {
     }
 
     private void fetchDataFromFirebase() {
-        // Ustaw ValueEventListener
+
         databaseReferencePosty.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Wyczyść listę przed dodaniem nowych danych
                 tempwiadomoscilist.clear();
 
 

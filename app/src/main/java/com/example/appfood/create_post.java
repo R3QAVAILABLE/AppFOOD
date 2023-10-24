@@ -40,7 +40,8 @@ public class create_post extends AppCompatActivity {
     View zdjecie;
     Uri imageUrl;
     StorageReference storageReference;
-    String imagepath;
+    String imagepath="brak";
+    boolean fotoselected=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +74,12 @@ public class create_post extends AppCompatActivity {
                     String SkladnikiDania = skladniki.getText().toString();
                 EditText instrukcja = findViewById(R.id.instrukcja_dania);
                     String InstrukcjaDania = instrukcja.getText().toString();
-                    if(!NazwaDania.isEmpty()&&!SkladnikiDania.isEmpty()&&!InstrukcjaDania.isEmpty()) {
-                        dodajPosta(NazwaDania, SkladnikiDania,InstrukcjaDania);
+                    if(!NazwaDania.isEmpty()&&!SkladnikiDania.isEmpty()&&!InstrukcjaDania.isEmpty()&&fotoselected==true) {
+                        dodajPosta(NazwaDania,InstrukcjaDania,SkladnikiDania);
                         Intent intent = new Intent(create_post.this, MainPostBrowserLayout.class);
                         startActivity(intent);
                     }
+
             }
         });
         cofanie.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +126,7 @@ public class create_post extends AppCompatActivity {
         if(requestCode==100 && data != null && data.getData() != null){
             imageUrl=data.getData();
             image_post.setImageURI(imageUrl);
+            fotoselected=true;
         }
     }
 

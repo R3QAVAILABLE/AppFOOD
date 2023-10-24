@@ -2,6 +2,8 @@ package com.example.appfood.post;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +16,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+
 import com.example.appfood.Edit_delete_post;
 import com.example.appfood.MainPostBrowserLayout;
 import com.example.appfood.R;
 import com.example.appfood.create_post;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>  {
@@ -37,7 +45,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     private FirebaseFirestore firestore;
     FirebaseAuth fbAuth;
     FirebaseUser fbUser;
-    StorageReference storageReference;
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
 
     public PostAdapter(Context mcontext) {
@@ -83,7 +92,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.comments.setText(post.getComments()+" comments");
         holder.ingredients.setText("Składniki:\n\n"+post.getIngredients());
         holder.postname.setText(post.getName());
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReferenceFromUrl("gs://appfood-87dbd.appspot.com").child(post.getImageUrl());
+        try{
+            final File file=File.createTempFile("image","jpg");
+            storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+                    holder.postimage.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("uyty","brak");
 
+                }
+            });
+        }
+        catch (Exception e){
+            Log.d("uyty","brak");
+        }
         firestore=FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("users").document(post.getAuthorId());
         if(post.getAuthorId().equals(currentuserid)){
@@ -143,7 +172,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             comments=itemView.findViewById(R.id.comments);
             postname=itemView.findViewById(R.id.name);
             ingredients=itemView.findViewById(R.id.ingredients);
-            storageReference= FirebaseStorage.getInstance("gs://appfood-87dbd.appspot.com").getReference();
 
             gotoedit.setOnClickListener(new View.OnClickListener() {
                 @Override
