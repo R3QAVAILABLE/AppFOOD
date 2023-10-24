@@ -8,42 +8,87 @@
     android:padding="16dp"
     tools:context=".Profile">
 
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="match_parent"
+
+    <!-- Add a Button for image upload -->
+    <ImageView
+        android:id="@+id/imageViewUploaded"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Imię: "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/buttonUploadImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Image"
+        />
+
+    <!-- Add an ImageView for the uploaded image -->
+
 
     <TextView
-        android:id="@+id/textViewLastName"
+        android:id="@+id/textViewNazwa"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Nazwa:"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextNewUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nazwisko: "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+        android:hint="New Username"
+        />
+
+
+    <Button
+        android:id="@+id/buttonSaveUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        />
+
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Imię: "
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textViewEmail"
-        android:layout_width="match_parent"
+        android:layout_width="378dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="E-mail: "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
-
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Logout">
-
-    </Button>
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/user_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UserDetails"></TextView>
+
+    <Button
+        android:id="@+id/buttonback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WRÓĆ "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Logout"
+        android:textStyle="bold">
+
+    </Button>
+
 </LinearLayout>
