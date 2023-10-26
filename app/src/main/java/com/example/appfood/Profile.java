@@ -40,6 +40,13 @@ public class Profile extends Activity {
     private FirebaseFirestore firestore;
     private static final int PICK_IMAGE_REQUEST = 1;
 
+    private Button button;
+    private TextView textView;
+
+    private FirebaseUser user;
+
+    private Button back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +59,43 @@ public class Profile extends Activity {
         buttonSaveUsername = findViewById(R.id.buttonSaveUsername);
         imageViewUploaded = findViewById(R.id.imageViewUploaded);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
+        back = findViewById(R.id.buttonback);
+        button = findViewById(R.id.logout);
+        textView = findViewById(R.id.user_details);
+
 
         storage = FirebaseStorage.getInstance();
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        user = auth.getCurrentUser();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profile.this, MainPostBrowserLayout.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        if(user==null){
+            Intent intent = new Intent(getApplicationContext(),LogIn.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            textView.setText(user.getEmail());
+        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(),LogIn.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
