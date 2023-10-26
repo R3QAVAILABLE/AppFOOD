@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import androidx.annotation.Nullable;
 
@@ -24,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.IOException;
 
 public class Profile extends Activity {
     private ImageView imageViewAvatar;
@@ -209,14 +214,15 @@ public class Profile extends Activity {
     private void loadProfileImage() {
         StorageReference storageRef = storage.getReference().child("profile_images/" + auth.getCurrentUser().getUid() + ".jpg");
 
-        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        final long ONE_MEGABYTE = 1024 * 1024;
+        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
-            public void onSuccess(Uri uri) {
-                // Pobieranie URL obrazka z Firebase Storage
-                String imageUrl = uri.toString();
+            public void onSuccess(byte[] bytes) {
+                // Konwersja tablicy bajtów na obiekt Bitmap
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
                 // Wyświetlenie obrazka w ImageView
-                imageViewUploaded.setImageURI(Uri.parse(imageUrl));
+                imageViewUploaded.setImageBitmap(bitmap);
                 imageViewUploaded.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
