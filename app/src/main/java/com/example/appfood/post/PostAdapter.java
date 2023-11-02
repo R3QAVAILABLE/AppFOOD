@@ -27,6 +27,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,7 +41,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>  {
 
@@ -47,11 +54,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     FirebaseUser fbUser;
     FirebaseStorage storage;
     StorageReference storageRef;
-
+    DatabaseReference db;
+    long postlikes;
 
     public PostAdapter(Context mcontext) {
         this.mcontext = mcontext;
 
+    }
+
+    public void refreshLikes(long likes){
+        postlikes =likes;
+        notifyDataSetChanged();
     }
 
     public void refreshPosts(List<Post> lista){
@@ -69,6 +82,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         postlist.clear();
         notifyDataSetChanged();
     }
+    private void addLike(String postid, DatabaseReference db) {
+        String msgid= UUID.randomUUID().toString();
+        PostLikes postlikes=new PostLikes(msgid,fbUser.getUid());
+        db.child(postid).child(fbUser.getUid()).setValue(postlikes);
+    }
 
     @NonNull
     @Override
@@ -80,6 +98,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.MyViewHolder holder, int position) {
 
+        try {
+            db = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference("postylikes");
+        } catch (Exception e) {
+            Log.d("xyz", "bład");
+        }
+
+
+
         fbAuth=FirebaseAuth.getInstance();
         fbUser=fbAuth.getCurrentUser();
         String currentuserid=fbUser.getUid();
@@ -88,7 +114,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         Post post=postlist.get(position);
         holder.postid=post.getPostId();
         holder.description.setText("Przygotowanie:\n\n"+post.getDescription());
-        holder.likes.setText(post.getLikes()+" likes");
         holder.comments.setText(post.getComments()+" comments");
         holder.ingredients.setText("Składniki:\n\n"+post.getIngredients());
         holder.postname.setText(post.getName());
@@ -113,6 +138,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         catch (Exception e){
             Log.d("uyty","brak");
         }
+        db.child(post.getPostId()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+
+                }
+                else {
+                    postlikes=task.getResult().getChildrenCount();
+                    Log.e("firebase", String.valueOf(postlikes ));
+                    holder.likes.setText(postlikes+" likes");
+                }
+            }
+        });
+
         firestore=FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("users").document(post.getAuthorId());
         if(post.getAuthorId().equals(currentuserid)){
@@ -134,6 +174,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 } else {
                     Log.d("qwerty", "get failed with ", task.getException());
                 }
+            }
+        });
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addLike(holder.postid,db);
             }
         });
 
@@ -158,6 +204,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         private TextView postname;
         private TextView ingredients;
         private String postid;
+        private ImageView like;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -172,6 +219,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             comments=itemView.findViewById(R.id.comments);
             postname=itemView.findViewById(R.id.name);
             ingredients=itemView.findViewById(R.id.ingredients);
+            like=itemView.findViewById(R.id.like);
+
 
             gotoedit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -182,6 +231,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     v.getContext().startActivity(intent);
                 }
             });
+
         }
     }
 

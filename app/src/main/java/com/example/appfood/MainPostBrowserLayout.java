@@ -63,6 +63,8 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         }
 
 
+
+
         fetchDataFromFirebase();
 
         ImageView profile;
@@ -90,6 +92,7 @@ public class MainPostBrowserLayout extends AppCompatActivity {
     }
 
     private void fetchDataFromFirebase() {
+
 
         databaseReferencePosty.addValueEventListener(new ValueEventListener() {
             @Override
