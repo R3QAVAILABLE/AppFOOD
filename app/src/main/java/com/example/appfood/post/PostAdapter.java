@@ -87,6 +87,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         PostLikes postlikes=new PostLikes(msgid,fbUser.getUid());
         db.child(postid).child(fbUser.getUid()).setValue(postlikes);
     }
+    private void removeLike(String postid, DatabaseReference db){
+        db.child(postid).child(fbUser.getUid()).removeValue();
+    }
 
     @NonNull
     @Override
@@ -179,7 +182,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addLike(holder.postid,db);
+
+                db.child(post.getPostId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            Log.d("qwerty","Post with ID " + " exists.");
+                            removeLike(holder.postid,db);
+                        } else {
+                            Log.d("qwerty","Post with ID " + " does not exist.");
+                            addLike(holder.postid,db);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("The read failed: " + databaseError.getCode());
+                    }
+                });
             }
         });
 
