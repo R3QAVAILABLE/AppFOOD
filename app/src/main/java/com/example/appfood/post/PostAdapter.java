@@ -56,17 +56,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     FirebaseStorage storage;
     StorageReference storageRef;
     DatabaseReference db;
-    long postlikes;
 
     public PostAdapter(Context mcontext) {
         this.mcontext = mcontext;
 
     }
 
-    public void refreshLikes(long likes){
-        postlikes =likes;
-        notifyDataSetChanged();
-    }
+
 
     public void refreshPosts(List<Post> lista){
         postlist =lista;
@@ -87,14 +83,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         postlist.clear();
         notifyDataSetChanged();
     }
-    private void addLike(String postid, DatabaseReference db) {
-        String msgid= UUID.randomUUID().toString();
-        PostLikes postlikes=new PostLikes(msgid,fbUser.getUid());
-        db.child(postid).child(fbUser.getUid()).setValue(postlikes);
-    }
-    private void removeLike(String postid, DatabaseReference db){
-        db.child(postid).child(fbUser.getUid()).removeValue();
-    }
+
 
     @NonNull
     @Override
@@ -147,20 +136,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         catch (Exception e){
             Log.d("uyty","brak");
         }
-        db.child(post.getPostId()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
 
-                }
-                else {
-                    postlikes=task.getResult().getChildrenCount();
-                    Log.e("firebase", String.valueOf(postlikes ));
-                    holder.likes.setText(postlikes+" likes");
-                }
-            }
-        });
 
 
         firestore=FirebaseFirestore.getInstance();
@@ -187,70 +163,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             }
         });
 
-        db.child(post.getPostId()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    holder.like.setSelected(true);
-                } else {
-                    holder.like.setSelected(false);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
+        isLikes(post.getPostId(), holder.like);
+        likesamount(holder.likes,holder.postid);
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(holder.like.isSelected()) {
-
-                    holder.like.setSelected(false);
-
-                } else {
-
-                    holder.like.setSelected(true);
+                if(holder.like.getTag().equals("like")){
+                    FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Likes").child(post.getPostId())
+                            .child(fbUser.getUid()).setValue(true);
                 }
-
-
-
-                db.child(post.getPostId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            Log.d("qwerty","Post with ID " + " exists.");
-                            removeLike(holder.postid,db);
-                            //holder.like.setSelected(false);
-                        } else {
-                            Log.d("qwerty","Post with ID " + " does not exist.");
-                            addLike(holder.postid,db);
-                            //holder.like.setSelected(true);
-                        }
-                        odswierz();
-                    }
-
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        System.out.println("The read failed: " + databaseError.getCode());
-                    }
-
-                });
-
+                else{
+                    FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Likes").child(post.getPostId())
+                            .child(fbUser.getUid()).removeValue();
+                }
             }
-
-
         });
+
+
+
+
+
+
+
+
 
 
 
     }
+
 
 
     @Override
@@ -301,6 +241,48 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
 
         }
+    }
+    private void isLikes(String postid, ImageView imageview){
+        FirebaseUser fbu=FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference=FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Likes")
+                .child(postid);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(fbu.getUid()).exists()){
+                    imageview.setSelected(true);
+                    imageview.setTag("liked");
+                }
+                else {
+                    imageview.setSelected(false);
+                    imageview.setTag("like");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+    }
+    private void likesamount (TextView likes, String postid){
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Likes").child(postid);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                likes.setText(snapshot.getChildrenCount()+" likes");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
