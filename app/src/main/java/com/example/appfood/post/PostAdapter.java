@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +78,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         notifyDataSetChanged();
 
     }
+    public void odswierz(){
+        notifyDataSetChanged();
+    }
+
 
     public void clearPost(){
         postlist.clear();
@@ -95,6 +100,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view    = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout,parent,false);
+
         return new MyViewHolder(view);
     }
 
@@ -156,6 +162,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             }
         });
 
+
         firestore=FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("users").document(post.getAuthorId());
         if(post.getAuthorId().equals(currentuserid)){
@@ -179,9 +186,39 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 }
             }
         });
+
+        db.child(post.getPostId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    holder.like.setSelected(true);
+                } else {
+                    holder.like.setSelected(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(holder.like.isSelected()) {
+
+                    holder.like.setSelected(false);
+
+                } else {
+
+                    holder.like.setSelected(true);
+                }
+
+
 
                 db.child(post.getPostId()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -189,19 +226,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                         if (dataSnapshot.exists()) {
                             Log.d("qwerty","Post with ID " + " exists.");
                             removeLike(holder.postid,db);
+                            //holder.like.setSelected(false);
                         } else {
                             Log.d("qwerty","Post with ID " + " does not exist.");
                             addLike(holder.postid,db);
+                            //holder.like.setSelected(true);
                         }
+                        odswierz();
                     }
+
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         System.out.println("The read failed: " + databaseError.getCode());
                     }
+
                 });
+
             }
+
+
         });
+
 
 
     }
@@ -242,6 +288,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             like=itemView.findViewById(R.id.like);
 
 
+
             gotoedit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -251,6 +298,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     v.getContext().startActivity(intent);
                 }
             });
+
 
         }
     }

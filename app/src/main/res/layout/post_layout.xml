@@ -122,9 +122,9 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-
+                android:src="@drawable/like_selector"
                 android:id="@+id/like"
-                android:src="@drawable/ic_like"
+                android:clickable="true"
                 />
 
 
