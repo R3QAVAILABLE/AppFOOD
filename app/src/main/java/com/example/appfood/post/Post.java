@@ -1,24 +1,24 @@
 package com.example.appfood.post;
 
-public class Post {
+public class Post implements Comparable<Post> {
     private String postId;
     private String authorId;
     private String imageUrl;
     private String name;
     private String ingredients;
     private String description;
-    private String tag;
+    private String date;
     private int likes;
     private int comments;
 
-    public Post(String postId, String authorId, String imageUrl, String name, String ingredients, String description, String tag, int likes, int comments) {
+    public Post(String postId, String authorId, String imageUrl, String name, String ingredients, String description, String date, int likes, int comments) {
         this.postId = postId;
         this.authorId = authorId;
         this.imageUrl = imageUrl;
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;
-        this.tag = tag;
+        this.date = date;
         this.likes = likes;
         this.comments = comments;
     }
@@ -71,12 +71,12 @@ public class Post {
         this.description = description;
     }
 
-    public String getTag() {
-        return tag;
+    public String getDate() {
+        return date;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getLikes() {
@@ -93,6 +93,11 @@ public class Post {
 
     public void setComments(int comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public int compareTo(Post o) {
+        return o.getDate().compareTo(getDate());
     }
 }
 

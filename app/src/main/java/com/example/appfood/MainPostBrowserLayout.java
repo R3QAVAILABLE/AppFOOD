@@ -53,7 +53,7 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Post post = new Post("123", "user1", "123", "dfgdfsg", "123","123","123",1,1);
+        Post post = new Post("123", "user1", "123", "dfgdfsg", "123","123","2023-11-06 14:33:21.475",1,1);
         tempwiadomoscilist.add(post);
         postAdapter.refreshPosts(tempwiadomoscilist);
         try {
@@ -110,14 +110,15 @@ public class MainPostBrowserLayout extends AppCompatActivity {
                     int likes = postSnapshot.child("likes").getValue(int.class);
                     String name = postSnapshot.child("name").getValue(String.class);
                     String postId = postSnapshot.child("postId").getValue(String.class);
-                    String tag = postSnapshot.child("tag").getValue(String.class);
+                    String date = postSnapshot.child("date").getValue(String.class);
 
                     // Utwórz obiekt Post
-                    Post post = new Post( postId,  authorId,  imageUrl,  name,  ingredients,  description,  tag,  likes,  comments);
+                    Post post = new Post( postId,  authorId,  imageUrl,  name,  ingredients,  description,  date,  likes,  comments);
 
                     // Dodaj post do listy
                     tempwiadomoscilist.add(post);
                 }
+                Collections.sort(tempwiadomoscilist);
                 postAdapter.refreshPosts(tempwiadomoscilist);
                 // Tutaj możesz zaktualizować interfejs użytkownika, jeśli potrzebne
             }
