@@ -42,7 +42,7 @@ public class tops extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_top_post_browser_layout);
+        setContentView(R.layout.activity_tops);
         recyclerView = findViewById(R.id.recyclerview);
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
