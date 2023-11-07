@@ -99,6 +99,9 @@ public class Post implements Comparable<Post> {
     public int compareTo(Post o) {
         return o.getDate().compareTo(getDate());
     }
+    public int compareByLikes(Post otherPost) {
+        return Integer.compare(this.likes, otherPost.likes);
+    }
 }
 
 
