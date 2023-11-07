@@ -1,31 +1,20 @@
 package com.example.appfood;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,9 +25,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 
-public class MainPostBrowserLayout extends AppCompatActivity {
+public class TopPosts extends AppCompatActivity {
 
     String idUzytkownik;
     DatabaseReference databaseReferencePosty;
@@ -53,28 +41,7 @@ public class MainPostBrowserLayout extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        //binding = ActivityMainPostBrowserLayoutBinding.inflate(getLayoutInflater());
-        //setContentView(binding.getRoot());
-        setContentView(R.layout.activity_main_post_browser_layout);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-          switch (item.getItemId()){
-              case R.id.bottom_home:
-                  return true;
-              case R.id.profile:
-                  startActivity(new Intent(getApplicationContext(), Profile.class));
-                  overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                  finish();
-                  return true;
-              case R.id.danie:
-                  startActivity(new Intent(getApplicationContext(), create_post.class));
-                  overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                  finish();
-                  return true;
-          }
-          return false;
-        });
+        setContentView(R.layout.activity_main_top_post_browser_layout);
         recyclerView = findViewById(R.id.recyclerview);
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
@@ -93,36 +60,6 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         }
 
 
-       // replaceFragment(new MainPostBrowserLayout());
-
-       /* bottomNavigationView.setBackground(null);
-
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-
-            switch (item.getItemId()) {
-                case R.id.home:
-                    //replaceFragment(new MainPostBrowserLayout());
-                    Intent intent = new Intent(this, MainPostBrowserLayout.class);
-                    startActivity(intent);
-                    break;
-
-                case R.id.profile:
-                   // replaceFragment(new Profile());
-                    Intent intent1 = new Intent(this, Profile.class);
-                    startActivity(intent1);
-                    break;
-
-                case R.id.danie:
-                   // replaceFragment(new create_post());
-                    Intent intent2 = new Intent(this, create_post.class);
-                    startActivity(intent2);
-                    break;
-
-
-            }
-
-            return true;
-        });?*/
 
 
         fetchDataFromFirebase();
@@ -137,25 +74,20 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         newpost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainPostBrowserLayout.this, create_post.class);
+                Intent intent = new Intent(TopPosts.this, create_post.class);
                 startActivity(intent);
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainPostBrowserLayout.this, Profile.class);
+                Intent intent = new Intent(TopPosts.this, Profile.class);
                 startActivity(intent);
             }
         });
 
     }
-   /* private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
-        fragmentTransaction.commit();
-    }*/
+
     private void fetchDataFromFirebase() {
 
 
@@ -183,9 +115,13 @@ public class MainPostBrowserLayout extends AppCompatActivity {
                     // Dodaj post do listy
                     tempwiadomoscilist.add(post);
                 }
-
-                Collections.sort(tempwiadomoscilist);
-
+                postAdapter.removeOldPosts();
+                Collections.sort(tempwiadomoscilist, new Comparator<Post>() {
+                    @Override
+                    public int compare(Post post1, Post post2) {
+                        return Integer.compare(post2.getLikes(), post1.getLikes());
+                    }
+                });
                 postAdapter.refreshPosts(tempwiadomoscilist);
                 // Tutaj możesz zaktualizować interfejs użytkownika, jeśli potrzebne
             }

@@ -28,7 +28,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -153,8 +155,9 @@ public class create_post extends AppCompatActivity {
 
     private void dodajPosta(String name, String description, String ingredients) {
         String msgid= UUID.randomUUID().toString();
+        String date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(Calendar.getInstance().getTime());
         uploadimage();
-        Post post=new Post(msgid,fbUser.getUid(),imagepath,name,ingredients, description,"123",1,1);
+        Post post=new Post(msgid,fbUser.getUid(),imagepath,name,ingredients, description,date,1,1);
         databaseReferencePosty.child(msgid).setValue(post);
     }
 }

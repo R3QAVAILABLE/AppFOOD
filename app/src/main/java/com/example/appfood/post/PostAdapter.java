@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,7 +42,13 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>  {
 
@@ -47,12 +59,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     FirebaseUser fbUser;
     FirebaseStorage storage;
     StorageReference storageRef;
-
+    DatabaseReference db;
+    int likesam;
 
     public PostAdapter(Context mcontext) {
         this.mcontext = mcontext;
 
     }
+
+
 
     public void refreshPosts(List<Post> lista){
         postlist =lista;
@@ -64,22 +79,59 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         notifyDataSetChanged();
 
     }
+    public void odswierz(){
+        notifyDataSetChanged();
+    }
+
 
     public void clearPost(){
         postlist.clear();
         notifyDataSetChanged();
     }
+    public void removeOldPosts() {
+        Calendar oneWeekAgo = Calendar.getInstance();
+        oneWeekAgo.add(Calendar.DAY_OF_YEAR, -7);
+
+        Iterator<Post> iterator = postlist.iterator();
+        while (iterator.hasNext()) {
+            Post post = iterator.next();
+            try {
+                if (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(post.getDate()).before(oneWeekAgo.getTime())) {
+                    iterator.remove();
+                }
+            }
+            catch (Exception e){
+
+            }
+        }
+
+        notifyDataSetChanged(); // Zaktualizuj RecyclerView po usunięciu postów
+    }
+
+
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view    = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout,parent,false);
+
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.MyViewHolder holder, int position) {
 
+
+
+
+        try {
+            db = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference("postylikes");
+        } catch (Exception e) {
+            Log.d("xyz", "bład");
+        }
+
+
+        Log.d("hfg",likesam+"");
         fbAuth=FirebaseAuth.getInstance();
         fbUser=fbAuth.getCurrentUser();
         String currentuserid=fbUser.getUid();
@@ -88,7 +140,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         Post post=postlist.get(position);
         holder.postid=post.getPostId();
         holder.description.setText("Przygotowanie:\n\n"+post.getDescription());
-        holder.likes.setText(post.getLikes()+" likes");
         holder.comments.setText(post.getComments()+" comments");
         holder.ingredients.setText("Składniki:\n\n"+post.getIngredients());
         holder.postname.setText(post.getName());
@@ -113,6 +164,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         catch (Exception e){
             Log.d("uyty","brak");
         }
+
+
+
         firestore=FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("users").document(post.getAuthorId());
         if(post.getAuthorId().equals(currentuserid)){
@@ -137,8 +191,35 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             }
         });
 
+        isLikes(post.getPostId(), holder.like);
+        likesamount(holder.likes,holder.postid);
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.like.getTag().equals("like")){
+                    FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Likes").child(post.getPostId())
+                            .child(fbUser.getUid()).setValue(true);
+                }
+                else{
+                    FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Likes").child(post.getPostId())
+                            .child(fbUser.getUid()).removeValue();
+                }
+                notifyDataSetChanged();
+            }
+        });
+
+
+
+
+
+
+
+
+
+
 
     }
+
 
 
     @Override
@@ -158,6 +239,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         private TextView postname;
         private TextView ingredients;
         private String postid;
+        private ImageView like;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -172,6 +254,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             comments=itemView.findViewById(R.id.comments);
             postname=itemView.findViewById(R.id.name);
             ingredients=itemView.findViewById(R.id.ingredients);
+            like=itemView.findViewById(R.id.like);
+
 
             gotoedit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -182,8 +266,59 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     v.getContext().startActivity(intent);
                 }
             });
+
+
         }
     }
+    private void isLikes(String postid, ImageView imageview){
+        FirebaseUser fbu=FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference=FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Likes")
+                .child(postid);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(fbu.getUid()).exists()){
+                    imageview.setSelected(true);
+                    imageview.setTag("liked");
+                }
+                else {
+                    imageview.setSelected(false);
+                    imageview.setTag("like");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+    }
+    private void likesamount (TextView likes, String postid){
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Likes").child(postid);
+
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                likesam = Integer.valueOf(String.valueOf(snapshot.getChildrenCount()));
+                DatabaseReference referenceposty = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("posty").child(postid);
+                referenceposty.child("likes").setValue(likesam);
+                likes.setText(snapshot.getChildrenCount()+" likes");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
 
 }
