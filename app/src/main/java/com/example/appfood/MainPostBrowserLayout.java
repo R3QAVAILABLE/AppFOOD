@@ -62,6 +62,11 @@ public class MainPostBrowserLayout extends AppCompatActivity {
           switch (item.getItemId()){
               case R.id.bottom_home:
                   return true;
+              case R.id.bottom_top:
+                  startActivity(new Intent(getApplicationContext(), tops.class));
+                  overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                  finish();
+                  return true;
               case R.id.profile:
                   startActivity(new Intent(getApplicationContext(), Profile.class));
                   overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

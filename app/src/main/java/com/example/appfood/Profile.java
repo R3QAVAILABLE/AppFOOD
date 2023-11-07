@@ -70,6 +70,11 @@ public class Profile extends Activity {
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                     return true;
+                case R.id.bottom_top:
+                    startActivity(new Intent(getApplicationContext(), tops.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
                 case R.id.profile:
                     return true;
                 case R.id.danie:

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TopPosts extends AppCompatActivity {
+public class tops extends AppCompatActivity {
 
     String idUzytkownik;
     DatabaseReference databaseReferencePosty;
@@ -46,6 +47,30 @@ public class TopPosts extends AppCompatActivity {
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_top);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.bottom_top:
+                    return true;
+                case R.id.bottom_home:
+                    startActivity(new Intent(getApplicationContext(), MainPostBrowserLayout.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.profile:
+                    startActivity(new Intent(getApplicationContext(), Profile.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.danie:
+                    startActivity(new Intent(getApplicationContext(), create_post.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+            }
+            return false;
+        });
         /*
         Post post = new Post("123", "user1", "123", "dfgdfsg", "123","123","2023-11-06 14:33:21.475",1,1);
         tempwiadomoscilist.add(post);
@@ -74,14 +99,14 @@ public class TopPosts extends AppCompatActivity {
         newpost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TopPosts.this, create_post.class);
+                Intent intent = new Intent(tops.this, create_post.class);
                 startActivity(intent);
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TopPosts.this, Profile.class);
+                Intent intent = new Intent(tops.this, Profile.class);
                 startActivity(intent);
             }
         });

@@ -17,6 +17,9 @@
         android:theme="@style/Theme.AppFOOD"
         tools:targetApi="31">
         <activity
+            android:name=".tops"
+            android:exported="false" />
+        <activity
             android:name=".Edit_delete_post"
             android:exported="false">
             <meta-data
