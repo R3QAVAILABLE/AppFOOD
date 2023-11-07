@@ -14,12 +14,16 @@ import android.widget.Toast;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.viewmodel.CreationExtras;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -57,6 +61,27 @@ public class Profile extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.profile);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.bottom_home:
+                    startActivity(new Intent(getApplicationContext(), MainPostBrowserLayout.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.profile:
+                    return true;
+                case R.id.danie:
+                    startActivity(new Intent(getApplicationContext(), create_post.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+            }
+            return false;
+        });
+
+
         textViewEmail = findViewById(R.id.textViewEmail);
         textViewName = findViewById(R.id.textViewName);
         textViewUsername = findViewById(R.id.textViewNazwa);
@@ -83,19 +108,18 @@ public class Profile extends Activity {
             }
         });
 
-        if(user==null){
-            Intent intent = new Intent(getApplicationContext(),LogIn.class);
+        if (user == null) {
+            Intent intent = new Intent(getApplicationContext(), LogIn.class);
             startActivity(intent);
             finish();
-        }
-        else{
+        } else {
             textView.setText(user.getEmail());
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(),LogIn.class);
+                Intent intent = new Intent(getApplicationContext(), LogIn.class);
                 startActivity(intent);
                 finish();
             }

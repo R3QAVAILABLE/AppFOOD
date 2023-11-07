@@ -5,6 +5,9 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,10 +20,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.appfood.databinding.ActivityMainBinding;
+import com.example.appfood.databinding.ActivityMainPostBrowserLayoutBinding;
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,13 +48,34 @@ public class MainPostBrowserLayout extends AppCompatActivity {
     String timeStamp;
     RecyclerView recyclerView;
     List<Post> tempwiadomoscilist = new ArrayList<>();
-
+    ActivityMainPostBrowserLayoutBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
+        //binding = ActivityMainPostBrowserLayoutBinding.inflate(getLayoutInflater());
+        //setContentView(binding.getRoot());
         setContentView(R.layout.activity_main_post_browser_layout);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+          switch (item.getItemId()){
+              case R.id.bottom_home:
+                  return true;
+              case R.id.profile:
+                  startActivity(new Intent(getApplicationContext(), Profile.class));
+                  overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                  finish();
+                  return true;
+              case R.id.danie:
+                  startActivity(new Intent(getApplicationContext(), create_post.class));
+                  overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                  finish();
+                  return true;
+          }
+          return false;
+        });
         recyclerView = findViewById(R.id.recyclerview);
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
@@ -61,6 +88,38 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         } catch (Exception e) {
             Log.d("xyz", "bład");
         }
+
+
+       // replaceFragment(new MainPostBrowserLayout());
+
+       /* bottomNavigationView.setBackground(null);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            switch (item.getItemId()) {
+                case R.id.home:
+                    //replaceFragment(new MainPostBrowserLayout());
+                    Intent intent = new Intent(this, MainPostBrowserLayout.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.profile:
+                   // replaceFragment(new Profile());
+                    Intent intent1 = new Intent(this, Profile.class);
+                    startActivity(intent1);
+                    break;
+
+                case R.id.danie:
+                   // replaceFragment(new create_post());
+                    Intent intent2 = new Intent(this, create_post.class);
+                    startActivity(intent2);
+                    break;
+
+
+            }
+
+            return true;
+        });?*/
 
 
         fetchDataFromFirebase();
@@ -88,7 +147,12 @@ public class MainPostBrowserLayout extends AppCompatActivity {
         });
 
     }
-
+   /* private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
+    }*/
     private void fetchDataFromFirebase() {
 
         databaseReferencePosty.addValueEventListener(new ValueEventListener() {
