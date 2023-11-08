@@ -76,7 +76,7 @@ public class LogIn extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(email)){
                     Toast.makeText(LogIn.this,"Enter email",Toast.LENGTH_SHORT).show();
-                    return;
+
                 }
 
                 if (TextUtils.isEmpty(password)){
@@ -96,6 +96,7 @@ public class LogIn extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(LogIn.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             }
                         });
