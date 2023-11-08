@@ -200,7 +200,7 @@ public class Profile extends Activity {
             String userId = currentUser.getUid();
 
             firestore.collection("users").document(userId)
-                    .update("username", newUsername)
+                    .update("name", newUsername)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(Task<Void> task) {

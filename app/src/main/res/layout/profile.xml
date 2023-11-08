@@ -5,31 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_signup"
     android:padding="16dp"
     tools:context=".Profile">
 
 
     <!-- Add a Button for image upload -->
-    <ImageView
-        android:id="@+id/imageViewUploaded"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:visibility="gone" />
 
     <!-- Add an ImageView for the uploaded image -->
 
+
+    <ImageView
+        android:id="@+id/imageViewUploaded"
+        android:layout_width="121dp"
+        android:layout_height="115dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/textViewNazwa"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/buttonUploadImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageViewUploaded"
         android:layout_alignEnd="@+id/buttonback"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="120dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="260dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="-1dp"
         android:layout_toEndOf="@+id/buttonSaveUsername"
         android:text="Upload Image" />
 
@@ -45,12 +51,12 @@
 
     <EditText
         android:id="@+id/editTextNewUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="375dp"
+        android:layout_height="63dp"
         android:layout_alignTop="@+id/textViewNazwa"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="99dp"
-        android:layout_marginBottom="530dp"
+        android:layout_marginTop="239dp"
+        android:layout_marginBottom="388dp"
         android:hint="New Username" />
 
     <Button
@@ -58,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonback"
-        android:layout_marginBottom="19dp"
+        android:layout_marginBottom="105dp"
         android:text="Save" />
 
     <TextView
@@ -75,7 +81,7 @@
         android:layout_width="378dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="590dp"
+        android:layout_marginBottom="445dp"
         android:text="E-mail: "
         android:textSize="18sp" />
 
@@ -83,8 +89,10 @@
         android:id="@+id/user_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="680dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginBottom="568dp"
         android:text="UserDetails"></TextView>
 
     <Button
