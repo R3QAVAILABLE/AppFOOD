@@ -59,6 +59,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     FirebaseUser fbUser;
     FirebaseStorage storage;
     StorageReference storageRef;
+    StorageReference storageProfileRef;
     DatabaseReference db;
     int likesam;
 
@@ -170,6 +171,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
                     holder.postimage.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("uyty","brak");
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.d("uyty","brak");
+        }
+        storageProfileRef = storage.getReferenceFromUrl("gs://appfood-87dbd.appspot.com").child("profile_images/"+post.getAuthorId()+".jpg");
+
+        try{
+            final File file=File.createTempFile("image","jpg");
+            storageProfileRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+                    holder.userimage.setImageBitmap(bitmap);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
