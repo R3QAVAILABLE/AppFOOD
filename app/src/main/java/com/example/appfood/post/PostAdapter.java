@@ -107,6 +107,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         notifyDataSetChanged(); // Zaktualizuj RecyclerView po usunięciu postów
     }
+    public void removeNotYourPosts(){
+        Iterator<Post> iterator = postlist.iterator();
+        fbAuth=FirebaseAuth.getInstance();
+        fbUser=fbAuth.getCurrentUser();
+        while (iterator.hasNext()) {
+            Post post = iterator.next();
+            try {
+                if (!(post.getAuthorId().equals((String) fbUser.getUid()))) {
+
+                    iterator.remove();
+                }
+            }
+            catch (Exception e){
+
+            }
+        }
+
+    }
 
 
 

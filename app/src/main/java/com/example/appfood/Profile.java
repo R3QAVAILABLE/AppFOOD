@@ -94,7 +94,7 @@ public class Profile extends Activity {
         buttonSaveUsername = findViewById(R.id.buttonSaveUsername);
         imageViewUploaded = findViewById(R.id.imageViewUploaded);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
-        back = findViewById(R.id.buttonback);
+        back = findViewById(R.id.button_yourposts);
         button = findViewById(R.id.logout);
         textView = findViewById(R.id.user_details);
 
@@ -107,7 +107,7 @@ public class Profile extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Profile.this, MainPostBrowserLayout.class);
+                Intent intent = new Intent(Profile.this, YourPosts.class);
                 startActivity(intent);
                 finish();
             }

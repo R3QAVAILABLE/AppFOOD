@@ -17,6 +17,9 @@
         android:theme="@style/Theme.AppFOOD"
         tools:targetApi="31">
         <activity
+            android:name=".YourPosts"
+            android:exported="false" />
+        <activity
             android:name=".tops"
             android:exported="false" />
         <activity
@@ -36,7 +39,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".LogIn"
             android:exported="true">
