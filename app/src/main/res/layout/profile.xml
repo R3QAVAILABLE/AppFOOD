@@ -13,7 +13,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_margin="20dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
 
@@ -26,18 +26,19 @@
             android:background="@drawable/lavender_border">
 
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageViewUploaded"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="left"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/textViewNazwa"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="18dp"
                 android:src="@mipmap/ic_launcher"
-                android:visibility="visible" />
+                app:civ_border_color="#FF000000"
+
+                app:civ_border_width="1dp"
+/>
 
             <Button
                 android:id="@+id/buttonUploadImage"
@@ -57,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="80dp"
                 android:text="Nazwa:"
                 android:textColor="@color/lightgrey"
                 android:textSize="20sp"
@@ -110,7 +111,7 @@
                 android:layout_width="213dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:text="New Username"
                 android:textColor="@color/lightgrey"
                 android:textSize="20sp"
@@ -130,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:text="Your Posts"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:textStyle="bold" />
 
             <Button
@@ -157,11 +158,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/darker_gray"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
+        android:background="@drawable/top_rounded_corners"
+        android:layout_marginTop="20dp"
         android:elevation="2dp"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_menu"

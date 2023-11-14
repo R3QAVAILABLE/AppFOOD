@@ -61,16 +61,8 @@ public class YourPosts extends AppCompatActivity {
 
         ImageView profile;
 
-        profile = findViewById(R.id.goto_profile);
 
 
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(YourPosts.this, Profile.class);
-                startActivity(intent);
-            }
-        });
 
     }
 

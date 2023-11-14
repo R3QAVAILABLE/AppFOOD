@@ -89,27 +89,8 @@ public class tops extends AppCompatActivity {
 
         fetchDataFromFirebase();
 
-        ImageView profile;
-        ImageView newpost;
-
-        profile = findViewById(R.id.goto_profile);
-        newpost = findViewById(R.id.goto_new_post);
 
 
-        newpost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(tops.this, create_post.class);
-                startActivity(intent);
-            }
-        });
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(tops.this, Profile.class);
-                startActivity(intent);
-            }
-        });
 
     }
 

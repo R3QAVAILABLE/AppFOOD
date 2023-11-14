@@ -1,58 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tops">
+    tools:context=".tops"
+    android:background="@drawable/bg_signup">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bar"
         android:background="?android:attr/windowBackground">
 
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:background="?android:attr/windowBackground"
-            >
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
 
-
-                    android:id="@+id/image_profile"
-                    android:src="@mipmap/ic_launcher"/>
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_toStartOf="@id/goto_profile"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:src="@drawable/ic_newpost"
-                    android:id="@+id/goto_new_post" />
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:src="@drawable/ic_profile"
-                    android:id="@+id/goto_profile" />
-
-
-
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
 
 
 
@@ -68,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/darker_gray"
+        android:layout_gravity="bottom"
+        android:background="@drawable/top_rounded_corners"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="30dp"
@@ -78,5 +39,6 @@
         app:menu="@menu/bottom_menu"
         app:itemIconSize="30dp"
         app:itemIconTint="@color/lavender"
-        app:itemRippleColor="@android:color/transparent"/>
-</RelativeLayout>
+        app:itemRippleColor="@android:color/transparent"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
