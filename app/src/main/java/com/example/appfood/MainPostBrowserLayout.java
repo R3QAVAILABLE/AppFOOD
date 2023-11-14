@@ -132,27 +132,10 @@ public class MainPostBrowserLayout extends AppCompatActivity {
 
         fetchDataFromFirebase();
 
-        ImageView profile;
-        ImageView newpost;
-
-        profile = findViewById(R.id.goto_profile);
-        newpost = findViewById(R.id.goto_new_post);
 
 
-        newpost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainPostBrowserLayout.this, create_post.class);
-                startActivity(intent);
-            }
-        });
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainPostBrowserLayout.this, Profile.class);
-                startActivity(intent);
-            }
-        });
+
+
 
     }
    /* private void replaceFragment(Fragment fragment) {
