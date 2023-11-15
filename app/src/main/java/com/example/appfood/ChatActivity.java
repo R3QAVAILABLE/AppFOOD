@@ -43,7 +43,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/");
 
         final String senderId = mAuth.getUid();
         String recieverId = getIntent().getStringExtra("userID");

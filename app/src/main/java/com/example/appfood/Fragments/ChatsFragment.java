@@ -41,7 +41,7 @@ public class ChatsFragment extends Fragment {
         // Inflate the layout for this fragment
 
         binding = FragmentChatsBinding.inflate(inflater,container,false);
-        database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/");
 
         UsersAdapter adapter = new UsersAdapter(list,getContext());
         binding.chatRecyclerView.setAdapter(adapter);

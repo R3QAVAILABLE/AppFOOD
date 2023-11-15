@@ -168,7 +168,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    FirebaseDatabase database = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/");
                                     String senderRoom = FirebaseAuth.getInstance().getUid() + recId;
                                     String receiverRoom = recId + FirebaseAuth.getInstance().getUid();
                                     String msgId = message.getrMessageId();

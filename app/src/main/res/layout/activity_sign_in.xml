@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_app"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".TESTREJEStracjaLOG.SignInActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="137.0000dp"
+                android:paddingTop="31.9667dp"
+                android:padding="11.4167dp"
+                android:contentDescription="@string/app_icon"
+                android:src="@drawable/chat_app_icon_circle" />
+
+
+            <EditText
+                android:id="@+id/email_input"
+                android:layout_width="match_parent"
+                style="@style/sign_up"
+                android:layout_height="68.5000dp"
+                android:layout_marginStart="28.5417dp"
+                android:layout_marginEnd="28.5417dp"
+                android:layout_marginTop="20.5500dp"
+                android:background="@drawable/custom_edit_text_rounded"
+                android:drawableStart="@drawable/baseline_email_24"
+                android:drawablePadding="13.7000dp"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="13.7000dp"
+                android:paddingEnd="13.7000dp" />
+
+            <EditText
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                style="@style/sign_up"
+                android:layout_height="68.5000dp"
+                android:layout_marginStart="28.5417dp"
+                android:layout_marginEnd="28.5417dp"
+                android:layout_marginTop="20.5500dp"
+                android:layout_marginBottom="20.5500dp"
+                android:background="@drawable/custom_edit_text_rounded"
+                android:drawableStart="@drawable/baseline_key_24"
+                android:drawablePadding="13.7000dp"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingStart="13.7000dp"
+                android:paddingEnd="13.7000dp" />
+
+            <TextView
+                android:id="@+id/txtSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="11.4167dp"
+                android:text="@string/txtSignUp"/>
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/light_blue"
+                android:textColor="@color/bg_grey_light"
+                android:text="@string/sign_in" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="22.8333dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingEnd="11.4167dp"
+                    android:paddingStart="1.1417dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rounded"
+                    android:gravity="center">
+                    <ImageButton
+                        android:layout_width="34.2500dp"
+                        android:layout_height="34.2500dp"
+                        android:background="@color/white"
+                        android:layout_marginStart="11.4167dp"
+                        android:src="@drawable/ic_google"
+                        android:scaleType="centerCrop"/>
+
+                    <Button
+                        android:id="@+id/google_signUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:backgroundTint="@color/white"
+                        android:paddingStart="10.2750dp"
+                        android:paddingEnd="4.5667dp"
+                        android:text="@string/google"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:cornerRadius="1.1417dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingEnd="11.4167dp"
+                    android:paddingStart="1.1417dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="11.4167dp"
+                    android:background="@drawable/button_rounded"
+                    android:gravity="center">
+                    <ImageButton
+                        android:layout_width="34.2500dp"
+                        android:layout_height="34.2500dp"
+                        android:background="@color/white"
+                        android:layout_marginStart="11.4167dp"
+                        android:src="@drawable/ic_fb"
+                        android:scaleType="centerCrop"/>
+                    <Button
+                        android:id="@+id/fb_signUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/facebook"
+                        android:clickable="false"
+                        android:textColor="@color/black"
+                        android:backgroundTint="@color/white"
+                        android:textSize="15sp"
+                        android:paddingStart="10.2750dp"
+                        android:paddingEnd="4.5667dp"
+                        android:layout_alignParentTop="true"
+                        app:cornerRadius="1.1417dp"
+                        android:layout_centerHorizontal="true"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
