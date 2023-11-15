@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_app"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="6"
+        style="@style/app_bar">
+
+        <TextView
+            android:id="@+id/main_navbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app"
+            style="@style/app_bar"
+            android:layout_weight="5.5"
+            android:textColor="@color/white" />
+
+        <ImageButton
+            android:id="@+id/menuBtn"
+            android:layout_width="23.9750dp"
+            android:layout_height="23.9750dp"
+            android:layout_gravity="center_vertical"
+            android:foregroundGravity="right"
+            android:background="@drawable/ic_menu" />
+
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorHeight="0dp"
+        android:background="@drawable/tab_background"
+        android:elevation="4.5667dp"
+        app:tabGravity="center"
+        app:tabMode="fixed"
+        android:layout_margin="13.7000dp"
+        app:tabRippleColor="@null"
+        app:tabSelectedTextColor="@color/tabText_blue_lBlue"
+        app:tabTextColor="@color/tabText_white_grey" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+
+</LinearLayout>

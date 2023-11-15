@@ -22,4 +22,44 @@
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
     </style>
+    <style name="app_bar">
+        <item name="android:background">@color/light_blue</item>
+        <item name="android:padding">7dp</item>
+        <item name="fontFamily">@font/merriweather_sans_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="backgroundTint">@color/light_blue</item>
+    </style>
+
+    <!--    background of the whole app-->
+    <color name="bg_app">@color/bg_grey_light</color>
+
+    <!--    sign up page-->
+    <style name="sign_up">
+        <item name="hintTextColor">@color/dark_grey</item>
+        <item name="backgroundTint">@color/grey</item>
+        <item name="textFillColor">@color/black</item>
+    </style>
+
+    <!--    buttons-->
+    <style name="btn">
+        <item name="backgroundTint">#87C4FF</item>
+    </style>
+
+    <!--    Tab Layout-->
+    <color name="tabL_grey_lGray">#D1D1D1</color>
+    <color name="tabText_blue_lBlue">#7c8ecc</color>
+    <color name="tabText_white_grey">#FFFFFFFF</color>
+
+    <!--    Recycler View-->
+    <color name="rView_white_black">@color/black</color>
+
+    <!--    Chats-->
+    <color name="chat_texts">@color/black</color>
+    <color name="outgoing_chats">@color/lighter_blue</color>
+
+    <!--    straight line-->
+    <color name="line_grey_black">#c0c0c0</color>
+
+    <!--    color change on long press-->
+    <color name="longPress">@color/darker_grey</color>
 </resources>

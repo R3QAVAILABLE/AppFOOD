@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.appfood.MainActivity;
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -74,6 +75,11 @@ public class MainPostBrowserLayout extends AppCompatActivity {
                   return true;
               case R.id.danie:
                   startActivity(new Intent(getApplicationContext(), create_post.class));
+                  overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                  finish();
+                  return true;
+              case R.id.bottom_chat:
+                  startActivity(new Intent(getApplicationContext(), MainActivity.class));
                   overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                   finish();
                   return true;

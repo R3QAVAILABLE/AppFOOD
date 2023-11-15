@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pfp"
+        android:layout_width="74.2083dp"
+        android:layout_height="74.2083dp"
+        android:layout_margin="5.7083dp"
+        android:padding="5.7083dp"
+        android:src="@drawable/profile"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="1.1417dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5.7083dp"
+            android:text="UserName"
+            android:textStyle="bold"
+            android:textColor="@color/rView_white_black"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/lastMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last seen at 4:20 PM"
+            android:textColor="@color/rView_white_black"
+            android:textSize="12sp"
+            android:padding="2.2833dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

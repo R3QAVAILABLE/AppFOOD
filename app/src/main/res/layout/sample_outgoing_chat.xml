@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5.7083dp"
+        android:layout_marginTop="3.4250dp"
+        android:layout_marginBottom="3.4250dp"
+        android:layout_marginEnd="7.9917dp"
+        android:background="@drawable/chat_outgoing"
+        android:maxWidth="353.9167dp"
+        android:minHeight="34.2500dp"
+        android:paddingStart="11.4167dp"
+        android:paddingEnd="11.4167dp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="18.2667dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/senderText"
+            android:layout_marginStart="9.1333dp"
+            android:layout_marginTop="10.2750dp"
+            android:layout_marginBottom="3.4250dp"
+            android:singleLine="false"
+            android:textColor="@color/chat_texts"
+            android:maxWidth="308.2500dp"
+            android:minWidth="57.0833dp"
+            android:text="send text vie w how"
+            app:layout_constraintBottom_toTopOf="@+id/senderTime"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/senderTime"
+            android:layout_marginEnd="4.5667dp"
+            android:layout_marginBottom="4.5667dp"
+            android:text="7:12 PM"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</RelativeLayout>
