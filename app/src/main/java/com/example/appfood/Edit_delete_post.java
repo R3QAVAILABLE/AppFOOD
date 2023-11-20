@@ -67,7 +67,7 @@ public class Edit_delete_post extends AppCompatActivity {
                 newOpis=instrukcja.getText().toString();
                 newSkladniki=skladniki.getText().toString();
                 if(!newNazwa.isEmpty()&&!newSkladniki.isEmpty()&&!newOpis.isEmpty()) {
-                    edytujPosta(newNazwa, newSkladniki,newOpis);
+                    edytujPosta(newNazwa,newOpis, newSkladniki);
                     Intent intent = new Intent(Edit_delete_post.this, MainPostBrowserLayout.class);
                     startActivity(intent);
                 }
@@ -129,7 +129,7 @@ public class Edit_delete_post extends AppCompatActivity {
                     InstrukcjaDania=String.valueOf(task.getResult().child("description").getValue());
                     imageUrl=String.valueOf(task.getResult().child("imageUrl").getValue());
                     userid=String.valueOf(task.getResult().child("authorId").getValue());
-                    tag=String.valueOf(task.getResult().child("tag").getValue());
+                    tag=String.valueOf(task.getResult().child("date").getValue());
                     likes=task.getResult().child("likes").getValue(Integer.class);
                     comments=task.getResult().child("comments").getValue(Integer.class);
                     nazwa_dania.setText(NazwaDania);

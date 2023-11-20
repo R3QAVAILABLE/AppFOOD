@@ -6,17 +6,43 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_signup"
     tools:context=".MainPostBrowserLayout">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bar"
-        android:background="?android:attr/windowBackground">
 
-    </RelativeLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="search here"
+        android:layout_margin="10dp"
+
+
+        android:background="@drawable/top_rounded_corners2"/>
+
+    <ImageView
+        android:id="@+id/search_btn"
+        android:clickable="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/search"
+        android:src="@drawable/ic_search">
+
+    </ImageView>
+</RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerview"
+        android:layout_marginTop="50dp"
         android:layout_below="@+id/bar"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

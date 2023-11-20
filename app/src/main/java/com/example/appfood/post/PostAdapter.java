@@ -89,7 +89,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         postlist.clear();
         notifyDataSetChanged();
     }
-    public void removeOldPosts() {
+    public void removeSelected(Post selectedpost) {
+        Iterator<Post> iterator = postlist.iterator();
+        while (iterator.hasNext()) {
+            Post post = iterator.next();
+            try {
+                if (post.getPostId().equals(selectedpost.getPostId())) {
+                    iterator.remove();
+                }
+            } catch (Exception e) {
+            }
+        }
+        //notifyDataSetChanged();
+    }
+
+        public void removeOldPosts() {
         Calendar oneWeekAgo = Calendar.getInstance();
         oneWeekAgo.add(Calendar.DAY_OF_YEAR, -7);
 

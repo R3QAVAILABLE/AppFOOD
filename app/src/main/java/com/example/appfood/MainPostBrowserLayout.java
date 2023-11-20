@@ -19,6 +19,7 @@ import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
@@ -37,6 +38,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainPostBrowserLayout extends AppCompatActivity {
 
@@ -46,6 +49,9 @@ public class MainPostBrowserLayout extends AppCompatActivity {
     PostAdapter postAdapter;
     String timeStamp;
     RecyclerView recyclerView;
+
+    ImageView searchbtn;
+    TextView searchtext;
     List<Post> tempwiadomoscilist = new ArrayList<>();
 
     @Override
@@ -80,6 +86,10 @@ public class MainPostBrowserLayout extends AppCompatActivity {
           }
           return false;
         });
+        searchbtn=findViewById(R.id.search_btn);
+        searchtext=findViewById(R.id.search);
+
+
         recyclerView = findViewById(R.id.recyclerview);
         postAdapter = new PostAdapter(this);
         recyclerView.setAdapter(postAdapter);
@@ -132,6 +142,32 @@ public class MainPostBrowserLayout extends AppCompatActivity {
 
         fetchDataFromFirebase();
 
+        searchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tekst;
+                String wyszykiwane = searchtext.getText().toString();
+                List<Post> tempserchpostlist = new ArrayList<>();
+
+
+                for(Post p : tempwiadomoscilist){
+
+                    tekst=p.getDescription();
+                    Pattern pattern = Pattern.compile("#\\w+");
+                    Matcher matcher = pattern.matcher(tekst);
+                    while (matcher.find()) {
+                        if(matcher.group().equals(wyszykiwane)){
+                            tempserchpostlist.add(p);
+                            Log.d("searchtest",p.getName());
+                        }
+                    }
+                }
+                postAdapter.refreshPosts(tempserchpostlist);
+
+
+
+            }
+        });
 
 
 
