@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@drawable/bg_signup"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".Profile">
 
     <androidx.cardview.widget.CardView
@@ -20,10 +19,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:padding="24dp"
-            android:background="@drawable/lavender_border">
+            android:background="@drawable/lavender_border"
+            android:orientation="vertical"
+            android:padding="24dp">
 
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -31,14 +30,13 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="left"
+                android:layout_marginLeft="18dp"
                 android:layout_toEndOf="@+id/textViewNazwa"
                 android:scaleType="centerCrop"
-                android:layout_marginLeft="18dp"
                 android:src="@mipmap/ic_launcher"
                 app:civ_border_color="#FF000000"
 
-                app:civ_border_width="1dp"
-/>
+                app:civ_border_width="1dp" />
 
             <Button
                 android:id="@+id/buttonUploadImage"
@@ -46,34 +44,25 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageViewUploaded"
                 android:layout_alignEnd="@+id/buttonback"
+                android:layout_gravity="right"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="-70dp"
-                android:layout_gravity="right"
                 android:layout_toEndOf="@+id/buttonSaveUsername"
                 android:text="Upload Image" />
 
 
-            <TextView
-                android:id="@+id/textViewNazwa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="80dp"
-                android:text="Nazwa:"
-                android:textColor="@color/lightgrey"
-                android:textSize="20sp"
-                android:layout_marginStart="23dp"
-                android:textStyle="bold" />
+
+
             <TextView
                 android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginTop="10dp"
-                android:text="Imię: "
-                android:textColor="@color/lightgrey"
-                android:textSize="20sp"
                 android:layout_marginStart="23dp"
+                android:layout_marginTop="40dp"
+                android:text="Imię: "
+                android:textColor="@color/black"
+                android:textSize="20sp"
 
                 android:textStyle="bold" />
 
@@ -83,28 +72,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginStart="23dp"
                 android:layout_marginTop="10dp"
                 android:text="E-mail: "
-                android:textColor="@color/lightgrey"
+                android:textColor="@color/black"
                 android:textSize="20sp"
-                android:layout_marginStart="23dp"
 
                 android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/user_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="10dp"
-                android:text="UserDetails:"
 
-                android:textColor="@color/lightgrey"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextNewUsername"
@@ -112,26 +89,27 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="40dp"
-                android:text="New Username"
-                android:textColor="@color/lightgrey"
+                android:hint="New Username"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
             <Button
                 android:id="@+id/buttonSaveUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/buttonback"
-                android:text="Save"
                 android:layout_marginStart="220dp"
-                android:layout_marginTop="-50dp"/>
+                android:layout_marginTop="-50dp"
+                android:text="Save" />
 
             <Button
                 android:id="@+id/button_yourposts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:text="Your Posts"
                 android:layout_marginTop="40dp"
+                android:text="Your Posts"
                 android:textStyle="bold" />
 
             <Button
@@ -142,10 +120,7 @@
 
                 android:gravity="center"
                 android:text="Logout"
-                android:textStyle="bold"/>
-
-
-
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -158,14 +133,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/top_rounded_corners"
-        android:layout_marginTop="20dp"
         android:elevation="2dp"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottom_menu"
         app:itemIconSize="30dp"
         app:itemIconTint="@color/lavender"
-        app:itemRippleColor="@android:color/transparent"/>
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_menu" />
 </LinearLayout>

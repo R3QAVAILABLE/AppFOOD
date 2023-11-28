@@ -89,14 +89,13 @@ public class Profile extends Activity {
 
         textViewEmail = findViewById(R.id.textViewEmail);
         textViewName = findViewById(R.id.textViewName);
-        textViewUsername = findViewById(R.id.textViewNazwa);
         editTextNewUsername = findViewById(R.id.editTextNewUsername);
         buttonSaveUsername = findViewById(R.id.buttonSaveUsername);
         imageViewUploaded = findViewById(R.id.imageViewUploaded);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
         back = findViewById(R.id.button_yourposts);
         button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
+
 
 
         storage = FirebaseStorage.getInstance();
@@ -117,8 +116,6 @@ public class Profile extends Activity {
             Intent intent = new Intent(getApplicationContext(), LogIn.class);
             startActivity(intent);
             finish();
-        } else {
-            textView.setText(user.getEmail());
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,11 +138,10 @@ public class Profile extends Activity {
                             if (documentSnapshot.exists()) {
                                 String email = documentSnapshot.getString("email");
                                 String name = documentSnapshot.getString("name");
-                                String username = documentSnapshot.getString("username");
+
 
                                 textViewEmail.setText("E-mail: " + email);
-                                textViewName.setText("Name: " + name);
-                                textViewUsername.setText("Username: " + username);
+                                textViewName.setText("Username: " + name);
                             }
                         }
                     });
@@ -156,7 +152,7 @@ public class Profile extends Activity {
             public void onClick(View view) {
                 String newUsername = editTextNewUsername.getText().toString();
                 if (!newUsername.isEmpty()) {
-                    textViewUsername.setText("Username: " + newUsername);
+                    textViewName.setText("Username: " + newUsername);
                     updateUsernameInFirestore(newUsername);
                 }
             }
@@ -243,8 +239,8 @@ public class Profile extends Activity {
     private void loadProfileImage() {
         StorageReference storageRef = storage.getReference().child("profile_images/" + auth.getCurrentUser().getUid() + ".jpg");
 
-        final long ONE_MEGABYTE = 300 * 300;
-        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        final long MAX_BUFFER_SIZE = 5 * 1024 * 1024;
+        storageRef.getBytes(MAX_BUFFER_SIZE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 // Konwersja tablicy bajtów na obiekt Bitmap
@@ -258,6 +254,7 @@ public class Profile extends Activity {
             @Override
             public void onFailure(Exception e) {
                 // Obsłuż błąd, jeśli obrazka nie udało się pobrać
+                Log.e("Profile", "Failed to load profile image", e);
                 Toast.makeText(Profile.this, "Failed to load profile image", Toast.LENGTH_SHORT).show();
             }
         });
