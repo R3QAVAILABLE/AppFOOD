@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appfood.activities.MainActivity;
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -65,6 +66,11 @@ public class tops extends AppCompatActivity {
                     return true;
                 case R.id.danie:
                     startActivity(new Intent(getApplicationContext(), create_post.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.chat_bot:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                     return true;

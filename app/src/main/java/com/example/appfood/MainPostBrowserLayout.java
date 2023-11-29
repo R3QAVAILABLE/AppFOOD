@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.appfood.activities.MainActivity;
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -83,6 +84,12 @@ public class MainPostBrowserLayout extends AppCompatActivity {
                   overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                   finish();
                   return true;
+              case R.id.chat_bot:
+                  startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                  overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                  finish();
+                  return true;
+
           }
           return false;
         });

@@ -76,4 +76,18 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:23.0.3'
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.4.0'
+    implementation 'com.google.firebase:firebase-messaging:23.2.1'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
