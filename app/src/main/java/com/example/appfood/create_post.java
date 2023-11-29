@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.appfood.activities.MainActivity;
 import com.example.appfood.post.Post;
 import com.example.appfood.post.PostAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,6 +72,11 @@ public class create_post extends AppCompatActivity {
                     return true;
                 case R.id.profile:
                     startActivity(new Intent(getApplicationContext(), Profile.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.chat_bot:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                     return true;
