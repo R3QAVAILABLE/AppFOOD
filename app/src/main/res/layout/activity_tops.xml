@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".tops"
-    android:background="@drawable/bg_signup">
+    android:background="@drawable/backgr">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,5 +40,7 @@
         app:itemIconSize="30dp"
         app:itemIconTint="@color/lavender"
         app:itemRippleColor="@android:color/transparent"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

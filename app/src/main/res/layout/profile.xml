@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_signup"
+    android:background="@drawable/backgr"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".Profile">
@@ -14,13 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         app:cardCornerRadius="30dp"
-        app:cardElevation="20dp">
+        app:cardElevation="20dp"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/lavender_border"
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -60,7 +61,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="23dp"
                 android:layout_marginTop="40dp"
-                android:text="Imię: "
+                android:text="Username: "
                 android:textColor="@color/black"
                 android:textSize="20sp"
 
@@ -130,17 +131,16 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="95dp"
-        android:layout_marginEnd="20dp"
         android:background="@drawable/top_rounded_corners"
         android:elevation="2dp"
         app:itemIconSize="30dp"
         app:itemIconTint="@color/lavender"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottom_menu" />
+        app:menu="@menu/bottom_menu"
+        android:layout_gravity="bottom"
+        />
 </LinearLayout>
