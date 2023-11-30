@@ -58,7 +58,9 @@
         android:layout_marginTop="20.80dp"
         android:background="@drawable/background_content_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageProfile">
+        app:layout_constraintTop_toBottomOf="@id/imageProfile"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/conversationRecyclerView"
@@ -77,6 +79,21 @@
             android:layout_height="32.50dp"
             android:layout_gravity="center" />
 
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@drawable/top_rounded_corners"
+            android:elevation="2dp"
+            app:itemIconSize="30dp"
+            app:itemIconTint="@color/lavender"
+            app:itemRippleColor="@android:color/transparent"
+            app:labelVisibilityMode="unlabeled"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+            app:menu="@menu/bottom_menu" />
+
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -85,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="31.20dp"
         android:layout_marginRight="31.20dp"
-        android:layout_marginBottom="31.20dp"
+        android:layout_marginBottom="111.20dp"
         android:backgroundTint="@color/primary"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_add"

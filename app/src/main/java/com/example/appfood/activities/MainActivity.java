@@ -10,14 +10,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.appfood.MainPostBrowserLayout;
+import com.example.appfood.Profile;
+import com.example.appfood.R;
 import com.example.appfood.activities.chat.ChatActivity;
 import com.example.appfood.activities.user.UserActivity;
+import com.example.appfood.create_post;
 import com.example.appfood.databinding.ActivityMainBinding;
 import com.example.appfood.listeners.ConversionListener;
 import com.example.appfood.models.ChatMessage;
 import com.example.appfood.models.User;
+import com.example.appfood.tops;
 import com.example.appfood.utils.Constants;
 import com.example.appfood.utils.PreferenceManger;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
@@ -50,6 +56,38 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         getToken();
         setListeners();
         listenConversations();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.chat_bot);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.bottom_top:
+                    startActivity(new Intent(getApplicationContext(), tops.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_home:
+                    startActivity(new Intent(getApplicationContext(), MainPostBrowserLayout.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.profile:
+                    startActivity(new Intent(getApplicationContext(), Profile.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.danie:
+                    startActivity(new Intent(getApplicationContext(), create_post.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.chat_bot:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+            }
+            return false;
+        });
     }
 
     private void init() {
