@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appfood.Edit_delete_post;
 import com.example.appfood.MainPostBrowserLayout;
 import com.example.appfood.R;
+import com.example.appfood.comments;
 import com.example.appfood.create_post;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -62,6 +63,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     StorageReference storageProfileRef;
     DatabaseReference db;
     int likesam;
+    int commentsam;
 
     public PostAdapter(Context mcontext) {
         this.mcontext = mcontext;
@@ -247,6 +249,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         isLikes(post.getPostId(), holder.like);
         likesamount(holder.likes,holder.postid);
+        commsamount(holder.comments,holder.postid);
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -294,10 +297,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         private TextView ingredients;
         private String postid;
         private ImageView like;
+        private ImageView comment;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            comment=itemView.findViewById(R.id.comment);
             gotoedit=itemView.findViewById(R.id.goto_edit_post);
             postimage=itemView.findViewById(R.id.post_image);
             description=itemView.findViewById(R.id.description);
@@ -310,7 +314,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             ingredients=itemView.findViewById(R.id.ingredients);
             like=itemView.findViewById(R.id.like);
 
-
+            comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), com.example.appfood.comments.class);
+                    intent.putExtra("postid",postid);
+                    Log.d("fsdggsfgfds",postid);
+                    v.getContext().startActivity(intent);
+                }
+            });
             gotoedit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -363,6 +375,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 DatabaseReference referenceposty = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("posty").child(postid);
                 referenceposty.child("likes").setValue(likesam);
                 likes.setText(snapshot.getChildrenCount()+" likes");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void commsamount (TextView comments, String postid){
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("comments").child(postid);
+
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                commentsam = Integer.valueOf(String.valueOf(snapshot.getChildrenCount()));
+                DatabaseReference referenceposty = FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("posty").child(postid);
+                referenceposty.child("comments").setValue(commentsam);
+                comments.setText(snapshot.getChildrenCount()+" comments");
 
             }
 

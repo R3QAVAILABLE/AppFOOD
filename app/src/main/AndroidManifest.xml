@@ -17,6 +17,9 @@
         android:theme="@style/Theme.AppFOOD"
         tools:targetApi="31">
         <activity
+            android:name=".comments"
+            android:exported="false" />
+        <activity
             android:name=".YourPosts"
             android:exported="false" />
         <activity

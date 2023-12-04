@@ -48,6 +48,7 @@ public class Edit_delete_post extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_delete_post);
+        DatabaseReference reference= FirebaseDatabase.getInstance("https://appfood-87dbd-default-rtdb.europe-west1.firebasedatabase.app/").getReference("comments");
 
         cofanie = findViewById(R.id.button_cancel);
         usun=findViewById(R.id.button_usun);
@@ -96,7 +97,7 @@ public class Edit_delete_post extends AppCompatActivity {
                         // Uh-oh, an error occurred!
                     }
                 });
-
+                reference.child(postid).removeValue();
                 databaseReferencePosty.child(postid).removeValue();
                 Intent intent = new Intent(Edit_delete_post.this, MainPostBrowserLayout.class);
                 startActivity(intent);

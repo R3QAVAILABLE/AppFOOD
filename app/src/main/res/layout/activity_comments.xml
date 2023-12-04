@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".comments">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclercomments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/bottom"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom"
+        android:padding="6dp"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/commenttosend"
+            android:text=""
+            android:hint="write comment here ..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/sendcomment">
+
+        </EditText>
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/sendcomment"
+            android:src="@drawable/ic_send"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginVertical="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp">
+
+        </ImageView>
+</RelativeLayout>
+</RelativeLayout>
