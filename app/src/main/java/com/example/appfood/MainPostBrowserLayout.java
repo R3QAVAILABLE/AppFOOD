@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.appfood.activities.MainActivity;
 import com.example.appfood.post.Post;
@@ -169,7 +170,12 @@ public class MainPostBrowserLayout extends AppCompatActivity {
                         }
                     }
                 }
-                postAdapter.refreshPosts(tempserchpostlist);
+                if(tempserchpostlist.isEmpty()){
+                    Toast.makeText(MainPostBrowserLayout.this, "Not found.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    postAdapter.refreshPosts(tempserchpostlist);
+                }
 
 
 

@@ -144,22 +144,12 @@ public class tops extends AppCompatActivity {
         });
 
     }
+
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Czy chcesz wyjść z aplikacji?")
-                .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish(); // Zamykanie aplikacji
-                    }
-                })
-                .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel(); // Zamykanie dialogu
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        Intent intent = new Intent(tops.this, MainPostBrowserLayout.class);
+        startActivity(intent);
     }
+
 
 }

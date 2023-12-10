@@ -257,4 +257,9 @@ public class Profile extends Activity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Profile.this, MainPostBrowserLayout.class);
+        startActivity(intent);
+    }
 }

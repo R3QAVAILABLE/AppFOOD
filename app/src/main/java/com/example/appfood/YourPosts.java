@@ -110,5 +110,10 @@ public class YourPosts extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(YourPosts.this, MainPostBrowserLayout.class);
+        startActivity(intent);
+    }
 
 }

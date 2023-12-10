@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.appfood.activities.MainActivity;
 import com.example.appfood.post.Post;
@@ -54,35 +55,6 @@ public class create_post extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.danie);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.bottom_home:
-                    startActivity(new Intent(getApplicationContext(), MainPostBrowserLayout.class));
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
-                    return true;
-                case R.id.bottom_top:
-                    startActivity(new Intent(getApplicationContext(), tops.class));
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
-                    return true;
-                case R.id.danie:
-                    return true;
-                case R.id.profile:
-                    startActivity(new Intent(getApplicationContext(), Profile.class));
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
-                    return true;
-                case R.id.chat_bot:
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
-                    return true;
-            }
-            return false;
-        });
         fbAuth=FirebaseAuth.getInstance();
         fbUser=fbAuth.getCurrentUser();
         View cofanie = findViewById(R.id.button_cancel);
@@ -115,6 +87,9 @@ public class create_post extends AppCompatActivity {
                         dodajPosta(NazwaDania,InstrukcjaDania,SkladnikiDania);
                         Intent intent = new Intent(create_post.this, MainPostBrowserLayout.class);
                         startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(create_post.this, "Missing data.", Toast.LENGTH_SHORT).show();
                     }
 
             }
@@ -173,5 +148,10 @@ public class create_post extends AppCompatActivity {
         uploadimage();
         Post post=new Post(msgid,fbUser.getUid(),imagepath,name,ingredients, description,date,1,1);
         databaseReferencePosty.child(msgid).setValue(post);
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(create_post.this, MainPostBrowserLayout.class);
+        startActivity(intent);
     }
 }
