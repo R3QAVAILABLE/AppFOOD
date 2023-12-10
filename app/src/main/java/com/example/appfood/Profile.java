@@ -101,7 +101,7 @@ public class Profile extends Activity {
         imageViewUploaded = findViewById(R.id.imageViewUploaded);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
         back = findViewById(R.id.button_yourposts);
-        button = findViewById(R.id.logout);
+
 
 
 
@@ -124,15 +124,6 @@ public class Profile extends Activity {
             startActivity(intent);
             finish();
         }
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
 
         FirebaseUser currentUser = auth.getCurrentUser();
