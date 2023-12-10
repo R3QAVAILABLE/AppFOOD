@@ -65,6 +65,7 @@ public class ChatActivity extends BaseActivity {
         loadReceiverDetails();
         init();
         listenMessages();
+        listenUserData();
     }
 
     private void init() {
@@ -163,6 +164,22 @@ public class ChatActivity extends BaseActivity {
                 showToast(t.getMessage());
             }
         });
+    }
+    private void listenUserData() {
+        FirebaseFirestore.getInstance()
+                .collection(Constants.KEY_COLLECTION_USERS)
+                .document(preferenceManger.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener((documentSnapshot, error) -> {
+                    if (error != null) {
+                        Log.e("UserDataListener", "Error: " + error.getMessage());
+                        return;
+                    }
+
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        String updatedUsername = documentSnapshot.getString(Constants.KEY_NAME);
+                        binding.textName.setText(updatedUsername);
+                    }
+                });
     }
 
     private void listenAvailabilityOfReceiver() {
