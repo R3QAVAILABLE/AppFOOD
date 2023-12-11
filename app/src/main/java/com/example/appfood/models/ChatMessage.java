@@ -7,4 +7,5 @@ public class ChatMessage {
     public Date dateObject;
 
     public String conversionId, conversionName, conversionImage;
+    public String userImage;
 }

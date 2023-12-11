@@ -105,6 +105,15 @@ public class MainActivity extends BaseActivity implements ConversionListener {
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         String updatedUsername = documentSnapshot.getString(Constants.KEY_NAME);
                         binding.textName.setText(updatedUsername);
+
+                        // Fetch user image from the document
+                        String userImage = documentSnapshot.getString(Constants.KEY_IMAGE);
+
+                        // Decode and set the user image
+                        byte[] bytes = Base64.decode(userImage, Base64.DEFAULT);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                        binding.imageProfile.setImageBitmap(bitmap);
                     }
                 });
     }
@@ -243,6 +252,11 @@ public class MainActivity extends BaseActivity implements ConversionListener {
     public void onConversionClicked(User user) {
         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
         intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MainActivity.this, MainPostBrowserLayout.class);
         startActivity(intent);
     }
 }

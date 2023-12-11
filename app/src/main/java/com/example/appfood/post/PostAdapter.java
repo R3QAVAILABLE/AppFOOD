@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.example.appfood.MainPostBrowserLayout;
 import com.example.appfood.R;
 import com.example.appfood.comments;
 import com.example.appfood.create_post;
+import com.example.appfood.utils.Constants;
+import com.example.appfood.utils.PreferenceManger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,6 +43,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,8 +69,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     int likesam;
     int commentsam;
 
+    private PreferenceManger preferenceManger;
+
     public PostAdapter(Context mcontext) {
         this.mcontext = mcontext;
+        preferenceManger = new PreferenceManger(mcontext);
 
     }
 
@@ -142,7 +149,37 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         }
 
     }
+    private void loadUserDetails(String authorId, ImageView imageViewUploaded, Context context) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        DocumentReference docRef = firestore.collection("users").document(authorId);
 
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // Fetch user image from the document
+                        String userImage = document.getString(Constants.KEY_IMAGE);
+
+                        // Decode and set the user image
+                        byte[] bytes = Base64.decode(userImage, Base64.DEFAULT);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                        if (imageViewUploaded != null) {
+                            imageViewUploaded.setImageBitmap(bitmap);
+                        } else {
+                            Log.e("PostAdapter", "ImageView is null");
+                        }
+                    } else {
+                        Log.d("qwerty", "No such document");
+                    }
+                } else {
+                    Log.d("qwerty", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 
 
     @NonNull
@@ -173,6 +210,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         holder.gotoedit.setVisibility(View.GONE);
         holder.gotoedit.setEnabled(false);
         Post post=postlist.get(position);
+        String authorId = post.getAuthorId();
         holder.postid=post.getPostId();
         holder.description.setText("Przygotowanie:\n\n"+post.getDescription());
         holder.comments.setText(post.getComments()+" comments");
@@ -199,29 +237,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         catch (Exception e){
             Log.d("uyty","brak");
         }
-        storageProfileRef = storage.getReferenceFromUrl("gs://appfood-87dbd.appspot.com").child("profile_images/"+post.getAuthorId()+".jpg");
-
-        try{
-            final File file=File.createTempFile("image","jpg");
-            storageProfileRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
-                    holder.userimage.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("uyty","brak");
-
-                }
-            });
-        }
-        catch (Exception e){
-            Log.d("uyty","brak");
-        }
-
-
+        Log.d("PostAdapter", "AuthorId for post at position " + position + ": " + authorId);
+        loadUserDetails(authorId, holder.userimage, mcontext);
 
         firestore=FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("users").document(post.getAuthorId());

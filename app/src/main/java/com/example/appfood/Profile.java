@@ -1,9 +1,13 @@
 package com.example.appfood;
 
+import static android.opengl.ETC1.encodeImage;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,13 +18,21 @@ import android.widget.Toast;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.viewmodel.CreationExtras;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.appfood.activities.MainActivity;
 import com.example.appfood.activities.SignInActivity;
+import com.example.appfood.utils.Constants;
+import com.example.appfood.utils.PreferenceManger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +46,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class Profile extends Activity {
@@ -51,6 +64,10 @@ public class Profile extends Activity {
     private FirebaseFirestore firestore;
     private static final int PICK_IMAGE_REQUEST = 1;
 
+    private static final int IMAGE_QUALITY = 50;
+
+    private PreferenceManger preferenceManger;
+
     private Button button;
     private TextView textView;
 
@@ -62,6 +79,7 @@ public class Profile extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.profile);
@@ -98,9 +116,12 @@ public class Profile extends Activity {
         textViewName = findViewById(R.id.textViewName);
         editTextNewUsername = findViewById(R.id.editTextNewUsername);
         buttonSaveUsername = findViewById(R.id.buttonSaveUsername);
-        imageViewUploaded = findViewById(R.id.imageViewUploaded);
+        imageViewUploaded = findViewById(R.id.profileImage);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
         back = findViewById(R.id.button_yourposts);
+        preferenceManger = new PreferenceManger(getApplicationContext());
+
+
 
 
 
@@ -109,6 +130,18 @@ public class Profile extends Activity {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         user = auth.getCurrentUser();
+
+        if (user != null) {
+            String userId = user.getUid();
+            loadUserDetailsForProfile(userId);
+        }
+        buttonUploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickImage();
+            }
+        });
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +171,7 @@ public class Profile extends Activity {
                                 String name = documentSnapshot.getString("name");
 
 
+
                                 textViewEmail.setText("E-mail: " + email);
                                 textViewName.setText("Username: " + name);
                             }
@@ -155,38 +189,94 @@ public class Profile extends Activity {
                 }
             }
         });
-
-        buttonUploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openImagePicker();
-            }
-        });
-
-        // Ładowanie obrazka z Firebase Storage
-        loadProfileImage();
     }
 
-    private void openImagePicker() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            imageViewUploaded.setImageURI(imageUri);
-            imageViewUploaded.setVisibility(View.VISIBLE);
-
-            // Zapisywanie obrazka do Firebase Storage
-            uploadImageToFirebaseStorage();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                imageViewUploaded.setImageBitmap(bitmap);
+                updateImageInFirestore(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    private void pickImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    private void updateImageInFirestore(Bitmap bitmap) {
+        String encodedImage = encodeImage(bitmap);
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            firestore.collection("users").document(userId)
+                    .update("image", encodedImage)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Image updated successfully in Firestore
+                            Toast.makeText(Profile.this, "Image updated successfully", Toast.LENGTH_SHORT).show();
+                            // Load the updated image using Glide
+                        } else {
+                            // Handle unsuccessful image update
+                            Toast.makeText(Profile.this, "Failed to update image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+
+    private String encodeImage(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private void loadUserDetailsForProfile(String userId) {
+        firestore.collection("users").document(userId).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Fetch user image from the document
+                                String userImage = document.getString(Constants.KEY_IMAGE);
+
+                                // Decode and set the user image
+                                byte[] bytes = Base64.decode(userImage, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                                if (imageViewUploaded != null) {
+                                    imageViewUploaded.setImageBitmap(bitmap);
+                                } else {
+                                    Log.e("ProfileActivity", "ImageView is null");
+                                }
+                            } else {
+                                Log.d("ProfileActivity", "No such document");
+                            }
+                        } else {
+                            Log.d("ProfileActivity", "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+
+
 
     private void updateUsernameInFirestore(String newUsername) {
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -210,53 +300,9 @@ public class Profile extends Activity {
         }
     }
 
-    private void uploadImageToFirebaseStorage() {
-        if (imageUri != null) {
-            StorageReference storageRef = storage.getReference().child("profile_images/" + auth.getCurrentUser().getUid() + ".jpg");
 
-            storageRef.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Przesłanie obrazka pomyślnie
-                            Toast.makeText(Profile.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
 
-                            // Teraz można pobrać URL obrazka i zapisać go w Firestore
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(Exception e) {
-                            // Obsłuż błąd
-                            Toast.makeText(Profile.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
 
-    private void loadProfileImage() {
-        StorageReference storageRef = storage.getReference().child("profile_images/" + auth.getCurrentUser().getUid() + ".jpg");
-
-        final long MAX_BUFFER_SIZE = 5 * 1024 * 1024;
-        storageRef.getBytes(MAX_BUFFER_SIZE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                // Konwersja tablicy bajtów na obiekt Bitmap
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
-                // Wyświetlenie obrazka w ImageView
-                imageViewUploaded.setImageBitmap(bitmap);
-                imageViewUploaded.setVisibility(View.VISIBLE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                // Obsłuż błąd, jeśli obrazka nie udało się pobrać
-                Log.e("Profile", "Failed to load profile image", e);
-                Toast.makeText(Profile.this, "Failed to load profile image", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Profile.this, MainPostBrowserLayout.class);
